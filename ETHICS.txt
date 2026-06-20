@@ -1,0 +1,49 @@
+ETHICS.txt — Brarner.M.Alete
+=============================
+
+Purpose
+-------
+This software platform processes scientific signal data for educational,
+governmental, and public service institutions. It is designed to support
+research, analysis, and public benefit.
+
+Principles
+----------
+1. Public Benefit — All data processing serves institutional research,
+   education, and community welfare purposes.
+
+2. Transparency — Configuration is open and auditable. Every instance's
+   config.xml documents what data is received and where results are stored.
+
+3. Data Integrity — Signal data is processed faithfully. No modification,
+   suppression, or fabrication of scientific results.
+
+4. Privacy — No personally identifiable information (PII) is collected,
+   stored, or transmitted by signal processing instances.
+
+5. Accountability — Each instance identifies its source institution,
+   office, or jurisdiction. Processing results are attributable.
+
+6. Non-Discrimination — All instances operate under identical processing
+   logic regardless of location, population, or jurisdiction.
+
+7. Security — Ports are opened only for instances explicitly marked active
+   in module configuration. Standby instances do not accept connections.
+
+8. Proportionality — Only necessary data is collected. Processing scope
+   is limited to the defined signal categories: audio FFT, statistical
+   analysis, and graphics spectrum.
+
+Usage Restrictions
+------------------
+- This software shall not be used for surveillance of individuals.
+- This software shall not be used to process data without institutional
+  authorization from the relevant university, office, or jurisdiction.
+- Results shall not be misrepresented or taken out of context.
+- Configuration changes that activate instances must be documented and
+  authorized by the project owner.
+
+Contact
+-------
+Maximilian Eric Alexander Rupplin von Keffikon
+MEARVK LLC

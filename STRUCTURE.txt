@@ -1,0 +1,61 @@
+STRUCTURE.txt — Brarner.M.Alete Project Layout
+================================================
+
+source-code/
+├── BaseServer.java              — Master server; reads config.xml, starts all active module instances
+├── Main.java                    — Application entry point
+├── config.xml                   — Master config: enables/disables modules, references module configs
+├── server-config.xml            — Port assignments for all instances (universities, postal, counties, SSA)
+├── universities.config          — University listing CSV (name, type, city)
+├── postal.offices.config        — Postal office listing (name, type, city/county/ZIP)
+├── counties.nc.config           — County listing CSV (name, seat, year established, population)
+├── ssa.administrations.csv      — SSA office listing (code, name, address, city, state, ZIP, phone, fax, hours)
+│
+├── universities/
+│   ├── BaseServer.java          — Universities module server
+│   ├── config.xml               — Module config: port range 8000–8052, active/standby instances
+│   ├── <name>/
+│   │   ├── SignalProcessing.java    — Audio FFT, data stats, graphics spectrum
+│   │   └── config.xml              — Instance config (university metadata + socket/DB/output)
+│   └── ... (53 university instances)
+│
+├── postal/
+│   ├── BaseServer.java          — Postal module server
+│   ├── config.xml               — Module config: port range 9000–9054, active/standby instances
+│   ├── <city>/
+│   │   ├── SignalProcessing.java
+│   │   └── config.xml              — Instance config (office name, type, county, ZIP + socket/DB/output)
+│   └── ... (55 postal instances: 3 P&DCs + 52 branches)
+│
+├── counties/
+│   ├── BaseServer.java          — Counties module server
+│   ├── config.xml               — Module config: port range 9100–9199, active/standby instances
+│   └── nc/
+│       ├── <county>/
+│       │   ├── SignalProcessing.java
+│       │   └── config.xml          — Instance config (county name, seat, year, population + socket/DB/output)
+│       └── ... (100 NC county instances)
+│
+└── ssa/
+    ├── BaseServer.java          — SSA module server
+    ├── config.xml               — Module config: port range 9200–10381, active/standby instances
+    └── <state>/
+        ├── <city>/
+        │   ├── SignalProcessing.java    — Javadoc includes office code, address, phone, fax
+        │   └── config.xml              — Instance config (office code, name, full address, phone, fax + socket/DB/output)
+        └── ... (1182 SSA office instances across all US states/territories)
+
+Configuration Hierarchy
+-----------------------
+1. source-code/config.xml          — Enables/disables modules
+2. <module>/config.xml             — Port range + which instances are active
+3. <module>/<instance>/config.xml  — Instance-specific data source, socket, DB, output paths
+
+Port Ranges
+-----------
+Universities:  8000–8052   (53 ports)
+Postal:        9000–9054   (55 ports)
+Counties NC:   9100–9199  (100 ports)
+SSA Offices:   9200–10381 (1182 ports)
+
+Total instances: 1390
