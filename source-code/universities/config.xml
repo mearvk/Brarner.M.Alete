@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Universities module configuration: active instances receiving science data -->
+<module-config module="universities">
+    <instance name="ncsu" port="8032" active="true" status="receiving" />
+    <instance name="duke" port="8011" active="true" status="receiving" />
+    <instance name="unc" port="8040" active="true" status="receiving" />
+    <instance name="ecu" port="8012" active="true" status="receiving" />
+    <instance name="nccentral" port="8031" active="true" status="receiving" />
+    <instance name="ncat" port="8030" active="true" status="receiving" />
+    <instance name="uncw" port="8046" active="true" status="receiving" />
+    <instance name="uncasheville" port="8041" active="true" status="receiving" />
+    <instance name="appalachian" port="8000" active="true" status="receiving" />
+    <instance name="meredith" port="8026" active="true" status="receiving" />
+    <instance name="wakeforest" port="8047" active="true" status="receiving" />
+    <instance name="davidson" port="8010" active="true" status="receiving" />
+    <instance name="elon" port="8014" active="true" status="receiving" />
+    <instance name="campbell" port="8006" active="true" status="receiving" />
+    <instance name="barton" port="8001" active="false" status="standby" />
+    <instance name="belmontabbey" port="8002" active="false" status="standby" />
+    <instance name="bennett" port="8003" active="false" status="standby" />
+    <instance name="brevard" port="8004" active="false" status="standby" />
+    <instance name="cabarrus" port="8005" active="false" status="standby" />
+    <instance name="carolinau" port="8007" active="false" status="standby" />
+    <instance name="catawba" port="8008" active="false" status="standby" />
+    <instance name="chowan" port="8009" active="false" status="standby" />
+    <instance name="ecsu" port="8013" active="false" status="standby" />
+    <instance name="faystate" port="8015" active="false" status="standby" />
+    <instance name="gardnerwebb" port="8016" active="false" status="standby" />
+    <instance name="greensboro" port="8017" active="false" status="standby" />
+    <instance name="guilford" port="8018" active="false" status="standby" />
+    <instance name="highpoint" port="8019" active="false" status="standby" />
+    <instance name="jcsmith" port="8020" active="false" status="standby" />
+    <instance name="leesmcrae" port="8021" active="false" status="standby" />
+    <instance name="lenoirrhyne" port="8022" active="false" status="standby" />
+    <instance name="livingstone" port="8023" active="false" status="standby" />
+    <instance name="marshill" port="8025" active="false" status="standby" />
+    <instance name="methodist" port="8027" active="false" status="standby" />
+    <instance name="montreat" port="8028" active="false" status="standby" />
+    <instance name="mountolive" port="8029" active="false" status="standby" />
+    <instance name="ncwesleyan" port="8033" active="false" status="standby" />
+    <instance name="pfeiffer" port="8034" active="false" status="standby" />
+    <instance name="queens" port="8035" active="false" status="standby" />
+    <instance name="saintaugustines" port="8036" active="false" status="standby" />
+    <instance name="salem" port="8037" active="false" status="standby" />
+    <instance name="shaw" port="8038" active="false" status="standby" />
+    <instance name="standrews" port="8039" active="false" status="standby" />
+    <instance name="unc.charlotte" port="8042" active="false" status="standby" />
+    <instance name="uncgreensboro" port="8043" active="false" status="standby" />
+    <instance name="uncpembroke" port="8044" active="false" status="standby" />
+    <instance name="uncsa" port="8045" active="false" status="standby" />
+    <instance name="warrenwilson" port="8048" active="false" status="standby" />
+    <instance name="westerncarolina" port="8049" active="false" status="standby" />
+    <instance name="williampeace" port="8050" active="false" status="standby" />
+    <instance name="wingate" port="8051" active="false" status="standby" />
+    <instance name="wssuniversity" port="8052" active="false" status="standby" />
+</module-config>
