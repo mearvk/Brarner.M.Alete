@@ -4,7 +4,7 @@
    <artifactId>ejbs</artifactId>
    <packaging>ejb</packaging>
    <version>1.0</version>
-   <name>enterprise java beans</name>
+   <name>ejbs</name>
    <parent>
       <groupId>root</groupId>
       <artifactId>project</artifactId>
@@ -12,26 +12,21 @@
    </parent>
    <dependencies>
       <dependency>
-         <groupId>root.project</groupId>
-         <artifactId>primary-source</artifactId>
+         <groupId>jakarta.ejb</groupId>
+         <artifactId>jakarta.ejb-api</artifactId>
+         <version>4.0.1</version>
+         <scope>provided</scope>
       </dependency>
       <dependency>
-         <groupId>root.project.projects</groupId>
-         <artifactId>logging</artifactId>
+         <groupId>jakarta.annotation</groupId>
+         <artifactId>jakarta.annotation-api</artifactId>
+         <version>2.1.1</version>
+         <scope>provided</scope>
       </dependency>
-  </dependencies>
-   <build>
-      <plugins>
-         <plugin>
-            <artifactId>maven-ejb-plugin</artifactId>
-            <configuration>
-               <archive>
-                  <manifest>
-                     <addClasspath>true</addClasspath>
-                  </manifest>
-               </archive> 
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
+      <dependency>
+         <groupId>com.mysql</groupId>
+         <artifactId>mysql-connector-j</artifactId>
+         <version>8.3.0</version>
+      </dependency>
+   </dependencies>
 </project>
