@@ -1,4 +1,4 @@
-﻿package universities.methodist;
+package universities.methodist;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

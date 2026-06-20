@@ -1,4 +1,4 @@
-﻿package postal.greensboro;
+package postal.greensboro;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

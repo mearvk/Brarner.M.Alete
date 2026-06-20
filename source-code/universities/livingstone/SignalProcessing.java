@@ -1,4 +1,4 @@
-﻿package universities.livingstone;
+package universities.livingstone;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

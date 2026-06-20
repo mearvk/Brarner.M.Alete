@@ -1,4 +1,4 @@
-﻿package universities.wssuniversity;
+package universities.wssuniversity;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

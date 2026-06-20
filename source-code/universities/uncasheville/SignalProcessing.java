@@ -1,4 +1,4 @@
-﻿package universities.uncasheville;
+package universities.uncasheville;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

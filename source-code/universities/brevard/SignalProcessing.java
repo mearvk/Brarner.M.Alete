@@ -1,4 +1,4 @@
-﻿package universities.brevard;
+package universities.brevard;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

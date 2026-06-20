@@ -1,4 +1,4 @@
-﻿package universities.uncsa;
+package universities.uncsa;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <server-config>
+    <!-- Universities -->
     <server name="universities.appalachian" port="8000" />
     <server name="universities.barton" port="8001" />
     <server name="universities.belmontabbey" port="8002" />
@@ -42,7 +43,7 @@
     <server name="universities.standrews" port="8039" />
     <server name="universities.unc" port="8040" />
     <server name="universities.uncasheville" port="8041" />
-    <server name="uncc" port="8042" />
+    <server name="universities.unc.charlotte" port="8042" />
     <server name="universities.uncgreensboro" port="8043" />
     <server name="universities.uncpembroke" port="8044" />
     <server name="universities.uncsa" port="8045" />
@@ -53,4 +54,165 @@
     <server name="universities.williampeace" port="8050" />
     <server name="universities.wingate" port="8051" />
     <server name="universities.wssuniversity" port="8052" />
+
+    <!-- Postal: Processing & Distribution Centers -->
+    <server name="postal.charlotte" port="9000" />
+    <server name="postal.greensboro" port="9001" />
+    <server name="postal.raleigh" port="9002" />
+
+    <!-- Postal: Post Office Branches -->
+    <server name="postal.charlotte002" port="9003" />
+    <server name="postal.raleigh002" port="9004" />
+    <server name="postal.greensboro002" port="9005" />
+    <server name="postal.durham" port="9006" />
+    <server name="postal.winstonsalem" port="9007" />
+    <server name="postal.fayetteville" port="9008" />
+    <server name="postal.asheville" port="9009" />
+    <server name="postal.wilmington" port="9010" />
+    <server name="postal.highpoint" port="9011" />
+    <server name="postal.cary" port="9012" />
+    <server name="postal.concord" port="9013" />
+    <server name="postal.gastonia" port="9014" />
+    <server name="postal.jacksonville" port="9015" />
+    <server name="postal.chapelhill" port="9016" />
+    <server name="postal.rockymount" port="9017" />
+    <server name="postal.burlington" port="9018" />
+    <server name="postal.huntersville" port="9019" />
+    <server name="postal.apex" port="9020" />
+    <server name="postal.hickory" port="9021" />
+    <server name="postal.greenville" port="9022" />
+    <server name="postal.mooresville" port="9023" />
+    <server name="postal.wakeforest" port="9024" />
+    <server name="postal.monroe" port="9025" />
+    <server name="postal.salisbury" port="9026" />
+    <server name="postal.matthews" port="9027" />
+    <server name="postal.goldsboro" port="9028" />
+    <server name="postal.newbern" port="9029" />
+    <server name="postal.statesville" port="9030" />
+    <server name="postal.kinston" port="9031" />
+    <server name="postal.thomasville" port="9032" />
+    <server name="postal.hendersonville" port="9033" />
+    <server name="postal.boone" port="9034" />
+    <server name="postal.morganton" port="9035" />
+    <server name="postal.elizabethcity" port="9036" />
+    <server name="postal.roanokerapids" port="9037" />
+    <server name="postal.tarboro" port="9038" />
+    <server name="postal.mountairy" port="9039" />
+    <server name="postal.lumberton" port="9040" />
+    <server name="postal.shelby" port="9041" />
+    <server name="postal.havelock" port="9042" />
+    <server name="postal.lexington" port="9043" />
+    <server name="postal.lenoir" port="9044" />
+    <server name="postal.clinton" port="9045" />
+    <server name="postal.sanford" port="9046" />
+    <server name="postal.asheboro" port="9047" />
+    <server name="postal.albemarle" port="9048" />
+    <server name="postal.waynesville" port="9049" />
+    <server name="postal.reidsville" port="9050" />
+    <server name="postal.eden" port="9051" />
+    <server name="postal.laurinburg" port="9052" />
+    <server name="postal.henderson" port="9053" />
+    <server name="postal.washington" port="9054" />
+
+    <!-- Counties NC -->
+    <server name="counties.nc.alamance" port="9100" />
+    <server name="counties.nc.alexander" port="9101" />
+    <server name="counties.nc.alleghany" port="9102" />
+    <server name="counties.nc.anson" port="9103" />
+    <server name="counties.nc.ashe" port="9104" />
+    <server name="counties.nc.avery" port="9105" />
+    <server name="counties.nc.beaufort" port="9106" />
+    <server name="counties.nc.bertie" port="9107" />
+    <server name="counties.nc.bladen" port="9108" />
+    <server name="counties.nc.brunswick" port="9109" />
+    <server name="counties.nc.buncombe" port="9110" />
+    <server name="counties.nc.burke" port="9111" />
+    <server name="counties.nc.cabarrus" port="9112" />
+    <server name="counties.nc.caldwell" port="9113" />
+    <server name="counties.nc.camden" port="9114" />
+    <server name="counties.nc.carteret" port="9115" />
+    <server name="counties.nc.caswell" port="9116" />
+    <server name="counties.nc.catawba" port="9117" />
+    <server name="counties.nc.chatham" port="9118" />
+    <server name="counties.nc.cherokee" port="9119" />
+    <server name="counties.nc.chowan" port="9120" />
+    <server name="counties.nc.clay" port="9121" />
+    <server name="counties.nc.cleveland" port="9122" />
+    <server name="counties.nc.columbus" port="9123" />
+    <server name="counties.nc.craven" port="9124" />
+    <server name="counties.nc.cumberland" port="9125" />
+    <server name="counties.nc.currituck" port="9126" />
+    <server name="counties.nc.dare" port="9127" />
+    <server name="counties.nc.davidson" port="9128" />
+    <server name="counties.nc.davie" port="9129" />
+    <server name="counties.nc.duplin" port="9130" />
+    <server name="counties.nc.durham" port="9131" />
+    <server name="counties.nc.edgecombe" port="9132" />
+    <server name="counties.nc.forsyth" port="9133" />
+    <server name="counties.nc.franklin" port="9134" />
+    <server name="counties.nc.gaston" port="9135" />
+    <server name="counties.nc.gates" port="9136" />
+    <server name="counties.nc.graham" port="9137" />
+    <server name="counties.nc.granville" port="9138" />
+    <server name="counties.nc.greene" port="9139" />
+    <server name="counties.nc.guilford" port="9140" />
+    <server name="counties.nc.halifax" port="9141" />
+    <server name="counties.nc.harnett" port="9142" />
+    <server name="counties.nc.haywood" port="9143" />
+    <server name="counties.nc.henderson" port="9144" />
+    <server name="counties.nc.hertford" port="9145" />
+    <server name="counties.nc.hoke" port="9146" />
+    <server name="counties.nc.hyde" port="9147" />
+    <server name="counties.nc.iredell" port="9148" />
+    <server name="counties.nc.jackson" port="9149" />
+    <server name="counties.nc.johnston" port="9150" />
+    <server name="counties.nc.jones" port="9151" />
+    <server name="counties.nc.lee" port="9152" />
+    <server name="counties.nc.lenoir" port="9153" />
+    <server name="counties.nc.lincoln" port="9154" />
+    <server name="counties.nc.macon" port="9155" />
+    <server name="counties.nc.madison" port="9156" />
+    <server name="counties.nc.martin" port="9157" />
+    <server name="counties.nc.mcdowell" port="9158" />
+    <server name="counties.nc.mecklenburg" port="9159" />
+    <server name="counties.nc.mitchell" port="9160" />
+    <server name="counties.nc.montgomery" port="9161" />
+    <server name="counties.nc.moore" port="9162" />
+    <server name="counties.nc.nash" port="9163" />
+    <server name="counties.nc.newhanover" port="9164" />
+    <server name="counties.nc.northampton" port="9165" />
+    <server name="counties.nc.onslow" port="9166" />
+    <server name="counties.nc.orange" port="9167" />
+    <server name="counties.nc.pamlico" port="9168" />
+    <server name="counties.nc.pasquotank" port="9169" />
+    <server name="counties.nc.pender" port="9170" />
+    <server name="counties.nc.perquimans" port="9171" />
+    <server name="counties.nc.person" port="9172" />
+    <server name="counties.nc.pitt" port="9173" />
+    <server name="counties.nc.polk" port="9174" />
+    <server name="counties.nc.randolph" port="9175" />
+    <server name="counties.nc.richmond" port="9176" />
+    <server name="counties.nc.robeson" port="9177" />
+    <server name="counties.nc.rockingham" port="9178" />
+    <server name="counties.nc.rowan" port="9179" />
+    <server name="counties.nc.rutherford" port="9180" />
+    <server name="counties.nc.sampson" port="9181" />
+    <server name="counties.nc.scotland" port="9182" />
+    <server name="counties.nc.stanly" port="9183" />
+    <server name="counties.nc.stokes" port="9184" />
+    <server name="counties.nc.surry" port="9185" />
+    <server name="counties.nc.swain" port="9186" />
+    <server name="counties.nc.transylvania" port="9187" />
+    <server name="counties.nc.tyrrell" port="9188" />
+    <server name="counties.nc.union" port="9189" />
+    <server name="counties.nc.vance" port="9190" />
+    <server name="counties.nc.wake" port="9191" />
+    <server name="counties.nc.warren" port="9192" />
+    <server name="counties.nc.washington" port="9193" />
+    <server name="counties.nc.watauga" port="9194" />
+    <server name="counties.nc.wayne" port="9195" />
+    <server name="counties.nc.wilkes" port="9196" />
+    <server name="counties.nc.wilson" port="9197" />
+    <server name="counties.nc.yadkin" port="9198" />
+    <server name="counties.nc.yancey" port="9199" />
 </server-config>

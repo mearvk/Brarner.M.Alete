@@ -1,4 +1,4 @@
-﻿package universities.barton;
+package universities.barton;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

@@ -1,4 +1,4 @@
-﻿package universities.ncat;
+package universities.ncat;
 
 import com.github.psambit9791.jdsp.transform.FastFourier;
 import java.io.*;

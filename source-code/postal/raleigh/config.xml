@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <signal-processing-config>
+    <office-name>Raleigh Processing &amp; Distribution Center</office-name>
+    <office-type>USPS</office-type>
+    <city>Raleigh</city>
+
     <data-source>local</data-source>
     <data-output>both</data-output>
     <socket-host>localhost</socket-host>
