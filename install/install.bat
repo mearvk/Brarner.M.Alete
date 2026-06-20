@@ -11,7 +11,7 @@ call "%~dp0install_jars.bat"
 echo.
 
 echo [2/4] Setting classpath...
-call "%~dp0install_classpath.bat"
+call "%~dp0..\configuration\install_classpath.bat"
 echo.
 
 echo [3/4] Installing MySQL...
@@ -19,7 +19,7 @@ call "%~dp0install_mysql.bat"
 echo.
 
 echo [4/4] Checking ports...
-call "%~dp0check_ports.bat"
+call "%~dp0..\configuration\check_ports.bat"
 echo.
 
 echo ============================================

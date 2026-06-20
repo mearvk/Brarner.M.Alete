@@ -17,13 +17,14 @@ if ! command -v brew &>/dev/null; then
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/../configuration"
 
 echo "[1/4] Installing JARs..."
 bash "$SCRIPT_DIR/install_jars.sh"
 echo
 
 echo "[2/4] Setting classpath..."
-bash "$SCRIPT_DIR/install_classpath.sh"
+bash "$CONFIG_DIR/install_classpath.sh"
 echo
 
 echo "[3/4] MySQL via Homebrew..."
@@ -39,13 +40,7 @@ brew services start mysql
 echo
 
 echo "[4/4] Checking ports..."
-for port in 3306 8080 443 8443 1099; do
-    if lsof -i :"$port" &>/dev/null; then
-        echo "  [OPEN] Port $port is in use"
-    else
-        echo "  [FREE] Port $port is available"
-    fi
-done
+bash "$CONFIG_DIR/check_ports.sh"
 echo
 
 echo "============================================"

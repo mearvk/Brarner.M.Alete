@@ -19,4 +19,4 @@ EOF
 chmod +x "$SCRIPT_DIR/set_classpath.sh"
 
 echo "Generated set_classpath.sh"
-echo "Usage: source scripts/set_classpath.sh"
+echo "Usage: source configuration/set_classpath.sh"
