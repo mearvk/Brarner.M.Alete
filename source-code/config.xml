@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Master configuration: specifies which modules are enabled and their config paths -->
+<base-server-config>
+    <module name="universities" enabled="true" config="source-code/universities/config.xml" />
+    <module name="postal" enabled="true" config="source-code/postal/config.xml" />
+    <module name="counties" enabled="true" config="source-code/counties/config.xml" />
+    <module name="ssa" enabled="true" config="source-code/ssa/config.xml" />
+</base-server-config>
