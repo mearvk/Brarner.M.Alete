@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Postal module configuration: active instances receiving science data -->
-<module-config module="postal">
+<module-config module="postal" port-start="9000" port-end="9054">
     <instance name="charlotte" port="9000" active="true" status="receiving" />
     <instance name="greensboro" port="9001" active="true" status="receiving" />
     <instance name="raleigh" port="9002" active="true" status="receiving" />

@@ -8,27 +8,36 @@ import org.w3c.dom.*;
 
 /**
  * Base server for all county signal processing instances.
- * Reads active ports from counties/config.xml and listens on each.
+ * Reads port range and active instances from counties/config.xml.
  */
 public class BaseServer
 {
+    private static int portStart, portEnd;
     private static final List<String[]> activeInstances = new ArrayList<>();
 
     static {
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder()
                 .parse(new File("source-code/counties/config.xml"));
+            Element root = (Element) doc.getElementsByTagName("module-config").item(0);
+            portStart = Integer.parseInt(root.getAttribute("port-start"));
+            portEnd = Integer.parseInt(root.getAttribute("port-end"));
             NodeList nodes = doc.getElementsByTagName("instance");
             for (int i = 0; i < nodes.getLength(); i++) {
                 Element el = (Element) nodes.item(i);
                 if ("true".equals(el.getAttribute("active"))) {
-                    activeInstances.add(new String[]{el.getAttribute("name"), el.getAttribute("port")});
+                    String port = el.getAttribute("port");
+                    int p = Integer.parseInt(port);
+                    if (p >= portStart && p <= portEnd) {
+                        activeInstances.add(new String[]{el.getAttribute("name"), port});
+                    }
                 }
             }
         } catch (Exception e) { e.printStackTrace(); }
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println("[counties] port range: " + portStart + "-" + portEnd);
         for (String[] inst : activeInstances) {
             String name = inst[0];
             int port = Integer.parseInt(inst[1]);

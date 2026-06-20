@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Counties module configuration: active instances receiving science data -->
-<module-config module="counties.nc">
+<module-config module="counties.nc" port-start="9100" port-end="9199">
     <instance name="wake" port="9191" active="true" status="receiving" />
     <instance name="mecklenburg" port="9159" active="true" status="receiving" />
     <instance name="guilford" port="9140" active="true" status="receiving" />

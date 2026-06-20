@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Universities module configuration: active instances receiving science data -->
-<module-config module="universities">
+<module-config module="universities" port-start="8000" port-end="8052">
     <instance name="ncsu" port="8032" active="true" status="receiving" />
     <instance name="duke" port="8011" active="true" status="receiving" />
     <instance name="unc" port="8040" active="true" status="receiving" />

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SSA module configuration: active instances receiving science data/feedback -->
-<module-config module="ssa">
+<module-config module="ssa" port-start="9200" port-end="10381">
     <!-- NC offices - active -->
     <instance name="nc/charlotte" port="9771" active="true" status="receiving" />
     <instance name="nc/raleigh" port="9771" active="true" status="receiving" />
