@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <university-name>Gardner-Webb University</university-name>
+    <year-founded>1905</year-founded>
+    <chancellor>William Downs</chancellor>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9000</socket-port>
+    <local-input-path>source-code/universities/gardnerwebb/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/universities/gardnerwebb</output-dir>
+</signal-processing-config>

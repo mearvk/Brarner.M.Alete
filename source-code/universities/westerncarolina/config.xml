@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <university-name>Western Carolina University</university-name>
+    <year-founded>1889</year-founded>
+    <chancellor>Kelli R. Brown</chancellor>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9000</socket-port>
+    <local-input-path>source-code/universities/westerncarolina/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/universities/westerncarolina</output-dir>
+</signal-processing-config>

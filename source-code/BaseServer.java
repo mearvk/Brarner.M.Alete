@@ -47,7 +47,7 @@ public class BaseServer
             int len = in.readInt();
             double[] data = new double[len];
             for (int i = 0; i < len; i++) data[i] = in.readDouble();
-            out.writeUTF("duke: received " + len + " samples");
+            out.writeUTF("universities.duke: received " + len + " samples");
         });
     }
 
@@ -58,7 +58,7 @@ public class BaseServer
             int len = in.readInt();
             double[] data = new double[len];
             for (int i = 0; i < len; i++) data[i] = in.readDouble();
-            out.writeUTF("ncsu: received " + len + " samples");
+            out.writeUTF("universities.ncsu: received " + len + " samples");
         });
     }
 
@@ -69,7 +69,7 @@ public class BaseServer
             int len = in.readInt();
             double[] data = new double[len];
             for (int i = 0; i < len; i++) data[i] = in.readDouble();
-            out.writeUTF("unc: received " + len + " samples");
+            out.writeUTF("universities.unc: received " + len + " samples");
         });
     }
 
@@ -80,7 +80,7 @@ public class BaseServer
             int len = in.readInt();
             double[] data = new double[len];
             for (int i = 0; i < len; i++) data[i] = in.readDouble();
-            out.writeUTF("main: received " + len + " samples");
+            out.writeUTF("universities.main: received " + len + " samples");
         });
     }
 

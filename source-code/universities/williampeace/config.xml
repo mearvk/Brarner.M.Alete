@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <university-name>William Peace University</university-name>
+    <year-founded>1857</year-founded>
+    <chancellor>Brian C. Ralph</chancellor>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>9000</socket-port>
+    <local-input-path>source-code/universities/williampeace/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/universities/williampeace</output-dir>
+</signal-processing-config>
