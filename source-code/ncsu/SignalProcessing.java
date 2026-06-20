@@ -1,16 +1,124 @@
 package ncsu;
 
+import java.io.*;
+import java.net.*;
+import java.sql.*;
+import javax.xml.parsers.*;
+
+import com.github.psambit9791.jdsp.transform.FastFourier;
+import org.w3c.dom.*;
+
 public class SignalProcessing
 {
-    protected final InsignatoryClass xnewsr = new InsignatoryClass();
+    private static String dataSource;
+    private static String dataOutput;
+    private static String socketHost;
+    private static int socketPort;
+    private static String localInputPath;
+    private static String dbUrl;
+    private static String dbUser;
+    private static String dbPass;
+    private static String outputDir;
 
-    public SignalProcessing()
-    {
-
+    static {
+        loadConfig("source-code/ncsu/config.xml");
     }
 
-    protected static class InsignatoryClass
-    {
+    private static void loadConfig(String path) {
+        try {
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(path));
+            doc.getDocumentElement().normalize();
+            dataSource = getTag(doc, "data-source");
+            dataOutput = getTag(doc, "data-output");
+            socketHost = getTag(doc, "socket-host");
+            socketPort = Integer.parseInt(getTag(doc, "socket-port"));
+            localInputPath = getTag(doc, "local-input-path");
+            dbUrl = getTag(doc, "db-url");
+            dbUser = getTag(doc, "db-user");
+            dbPass = getTag(doc, "db-pass");
+            outputDir = getTag(doc, "output-dir");
+        } catch (Exception e) {
+            dataSource = "local"; dataOutput = "both"; socketHost = "localhost";
+            socketPort = 9002; localInputPath = "."; dbUrl = "jdbc:mysql://localhost:3306/Science";
+            dbUser = "root"; dbPass = ""; outputDir = "output/ncsu";
+        }
+    }
 
+    private static String getTag(Document doc, String tag) {
+        NodeList nl = doc.getElementsByTagName(tag);
+        return nl.getLength() > 0 ? nl.item(0).getTextContent().trim() : "";
+    }
+
+    private static double[] readData() throws Exception {
+        if ("socket".equals(dataSource)) {
+            try (Socket sock = new Socket(socketHost, socketPort);
+                 DataInputStream dis = new DataInputStream(sock.getInputStream())) {
+                int len = dis.readInt();
+                double[] data = new double[len];
+                for (int i = 0; i < len; i++) data[i] = dis.readDouble();
+                return data;
+            }
+        } else {
+            BufferedReader br = new BufferedReader(new FileReader(localInputPath));
+            return br.lines().mapToDouble(Double::parseDouble).toArray();
+        }
+    }
+
+    private static void writeToFile(String filename, String content) throws Exception {
+        File f = new File(outputDir, filename + ".rdns");
+        f.getParentFile().mkdirs();
+        try (FileWriter fw = new FileWriter(f)) { fw.write(content); }
+    }
+
+    private static void writeToDatabase(String expName, String data) throws Exception {
+        try (Connection conn = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+             PreparedStatement ps = conn.prepareStatement(
+                 "INSERT INTO experiments (experiment_name, experiment_data) VALUES (?, ?)")) {
+            ps.setString(1, expName);
+            ps.setString(2, data);
+            ps.executeUpdate();
+        }
+    }
+
+    private static void output(String filename, String expName, String content) throws Exception {
+        if ("file".equals(dataOutput) || "both".equals(dataOutput)) writeToFile(filename, content);
+        if ("database".equals(dataOutput) || "both".equals(dataOutput)) writeToDatabase(expName, content);
+    }
+
+    public static class Audio {
+        public static void process() throws Exception {
+            double[] raw = readData();
+            FastFourier fft = new FastFourier(raw);
+            fft.transform();
+            double[] mag = fft.getMagnitude(true);
+            StringBuilder sb = new StringBuilder();
+            for (double v : mag) sb.append(v).append("\n");
+            output("ncsu_audio", "ncsu.audio.fft", sb.toString());
+        }
+    }
+
+    public static class Data {
+        public static void process() throws Exception {
+            double[] raw = readData();
+            double sum = 0; for (double v : raw) sum += v;
+            double mean = sum / raw.length;
+            double var = 0; for (double v : raw) var += (v - mean) * (v - mean);
+            var /= raw.length;
+            String result = "mean=" + mean + "\nvariance=" + var + "\nn=" + raw.length + "\n";
+            output("ncsu_data", "ncsu.data.stats", result);
+        }
+    }
+
+    public static class Graphics {
+        public static void process() throws Exception {
+            double[] raw = readData();
+            FastFourier fft = new FastFourier(raw);
+            fft.transform();
+            double[] mag = fft.getMagnitude(true);
+            StringBuilder sb = new StringBuilder();
+            sb.append("x,y\n");
+            for (int i = 0; i < mag.length; i++) sb.append(i).append(",").append(mag[i]).append("\n");
+            output("ncsu_graphics", "ncsu.graphics.spectrum", sb.toString());
+        }
     }
 }

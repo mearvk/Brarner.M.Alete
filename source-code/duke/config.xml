@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <!-- Data source: "local" or "socket" -->
+    <data-source>local</data-source>
+
+    <!-- Data output: "file", "database", or "both" -->
+    <data-output>both</data-output>
+
+    <!-- Socket settings (used when data-source=socket) -->
+    <socket-host>localhost</socket-host>
+    <socket-port>9000</socket-port>
+
+    <!-- Local input file path (used when data-source=local) -->
+    <local-input-path>source-code/duke/input.dat</local-input-path>
+
+    <!-- Database connection -->
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+
+    <!-- Output directory for .rdns files -->
+    <output-dir>output/duke</output-dir>
+</signal-processing-config>
