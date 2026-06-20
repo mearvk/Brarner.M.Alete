@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server-config>
+    <server name="duke" port="8000" />
+    <server name="ncsu" port="8001" />
+    <server name="unc" port="8002" />
+    <server name="main" port="8003" />
+    <server name="uncc" port="8004" />
+</server-config>
