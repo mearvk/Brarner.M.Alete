@@ -18,7 +18,7 @@ NC State University (NCSU) - Raleigh, NC
 
 ## Overview
 
-Signal processing platform serving North Carolina institutions, USPS postal facilities, NC counties, and Social Security Administration offices nationwide. Each instance performs audio FFT, statistical data analysis, and graphics spectrum processing via configurable socket-based data intake and dual output (file + database).
+Signal processing platform serving North Carolina institutions, USPS postal facilities, NC counties, Social Security Administration offices nationwide, and chemistry science divisions. Each instance performs audio FFT, statistical data analysis, and graphics spectrum processing via configurable socket-based data intake and dual output (file + database).
 
 ## Quick Start
 
@@ -34,7 +34,8 @@ BaseServer.java (master)
   ├── universities/config.xml → starts active university instances
   ├── postal/config.xml      → starts active postal instances
   ├── counties/config.xml    → starts active county instances
-  └── ssa/config.xml         → starts active SSA instances
+  ├── ssa/config.xml         → starts active SSA instances
+  └── chemistry/config.xml   → starts active chemistry instances
 ```
 
 Each module also has its own `BaseServer.java` for standalone operation.
@@ -66,6 +67,14 @@ USPS Processing & Distribution Centers and Post Office Branches — `source-code
 ### Counties (100 instances)
 All 100 North Carolina counties — `source-code/counties/nc/<county>/`
 
+### Chemistry Divisions (5 instances)
+The 5 fundamental divisions of chemistry — `source-code/chemistry/<division>/`
+- Analytical Chemistry
+- Biochemistry
+- Inorganic Chemistry
+- Organic Chemistry
+- Physical Chemistry
+
 ### SSA Offices (1182 instances)
 Social Security Administration field offices nationwide — `source-code/ssa/<state>/<city>/`
 
@@ -87,13 +96,14 @@ Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Ea
 ### Port Ranges
 | Module | Port Range | Instances |
 |--------|-----------|-----------|
-| Universities | 8000–8052 | 53 |
+| Chemistry | 20001–20005 | 5 |
+| Counties NC | 9100–9199 | 100 |
 | Postal (P&DCs) | 9000–9002 | 3 |
 | Postal (Branches) | 9003–9054 | 52 |
-| Counties NC | 9100–9199 | 100 |
 | SSA Offices | 9200–10381 | 1182 |
+| Universities | 8000–8052 | 53 |
 
-**Total: 1390 instances**
+**Total: 1395 instances**
 
 ### Activating an Instance
 
@@ -115,6 +125,7 @@ Each instance supports dual output configured via `<data-output>`:
 - `source-code/postal.offices.config` — Postal office listing (name, type, city/county/ZIP)
 - `source-code/counties.nc.config` — County listing (name, seat, year established, population)
 - `source-code/ssa.administrations.csv` — SSA office listing (code, name, address, city, state, ZIP, phone, fax, hours)
+- `source-code/config-files/chemistry.divisions.txt` — Chemistry division listing (5 fundamental divisions)
 
 ## Dependencies
 

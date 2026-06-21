@@ -1399,4 +1399,11 @@
     <server name="ssa.mo.kansascity006" port="10379" />
     <server name="ssa.mo.kansascity007" port="10380" />
     <server name="ssa.mo.kansascity008" port="10381" />
+
+    <!-- Chemistry Divisions -->
+    <server name="chemistry.analytical" port="20003" />
+    <server name="chemistry.biochemistry" port="20005" />
+    <server name="chemistry.inorganic" port="20002" />
+    <server name="chemistry.organic" port="20001" />
+    <server name="chemistry.physical" port="20004" />
 </server-config>

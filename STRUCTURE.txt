@@ -36,6 +36,13 @@ source-code/
 │       │   └── config.xml          — Instance config (county name, seat, year, population + socket/DB/output)
 │       └── ... (100 NC county instances)
 │
+├── chemistry/
+│   ├── config.xml               — Module config: port range 20001–20005, active/standby instances
+│   ├── <division>/
+│   │   ├── SignalProcessing.java    — Audio FFT, data stats, graphics spectrum
+│   │   └── config.xml              — Instance config (division metadata + socket/DB/output)
+│   └── ... (5 chemistry division instances: analytical, biochemistry, inorganic, organic, physical)
+│
 └── ssa/
     ├── BaseServer.java          — SSA module server
     ├── config.xml               — Module config: port range 9200–10381, active/standby instances
@@ -53,9 +60,10 @@ Configuration Hierarchy
 
 Port Ranges
 -----------
-Universities:  8000–8052   (53 ports)
-Postal:        9000–9054   (55 ports)
+Chemistry:     20001–20005 (5 ports)
 Counties NC:   9100–9199  (100 ports)
+Postal:        9000–9054   (55 ports)
 SSA Offices:   9200–10381 (1182 ports)
+Universities:  8000–8052   (53 ports)
 
-Total instances: 1390
+Total instances: 1395

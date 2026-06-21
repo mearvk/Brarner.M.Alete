@@ -1,0 +1,8 @@
+1. Organic Chemistry
+2. Inorganic Chemistry
+3. Analytical Chemistry
+4. Physical Chemistry
+5. Biochemistry
+6. Materials Science
+7. Environmental Chemistry
+8. Theoretical & Computational Chemistry

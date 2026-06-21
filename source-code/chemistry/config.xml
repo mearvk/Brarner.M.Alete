@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chemistry-config>
+    <module name="chemistry" active="true" />
+    <installer-tax-id>MEARVK-LLC-2026</installer-tax-id>
+    <brand>Brarner.M.Alete</brand>
+
+    <instances>
+        <instance name="organic" port="20001" active="true" status="standby" />
+        <instance name="inorganic" port="20002" active="true" status="standby" />
+        <instance name="analytical" port="20003" active="true" status="standby" />
+        <instance name="physical" port="20004" active="true" status="standby" />
+        <instance name="biochemistry" port="20005" active="true" status="standby" />
+    </instances>
+</chemistry-config>
