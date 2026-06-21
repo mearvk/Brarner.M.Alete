@@ -67,3 +67,11 @@ SSA Offices:   9200–10381 (1182 ports)
 Universities:  8000–8052   (53 ports)
 
 Total instances: 1395
+
+Build Scripts
+-------------
+build.sh   — Linux: compiles source-code/**/*.java, packages into Brarner.M.Alete.jar
+build.bat  — Windows: same as above for Windows environments
+
+Output: Brarner.M.Alete.jar (root directory)
+Dependencies: place jDSP and other JARs in lib/ before building

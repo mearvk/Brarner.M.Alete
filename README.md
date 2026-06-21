@@ -12,6 +12,8 @@ Meredith College - Raleigh, NC
 
 NC State University (NCSU) - Raleigh, NC
 
+We are not all in the Country as technical magicians.
+
 ![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
 
 ---
@@ -126,6 +128,20 @@ Each instance supports dual output configured via `<data-output>`:
 - `source-code/counties.nc.config` — County listing (name, seat, year established, population)
 - `source-code/ssa.administrations.csv` — SSA office listing (code, name, address, city, state, ZIP, phone, fax, hours)
 - `source-code/config-files/chemistry.divisions.txt` — Chemistry division listing (5 fundamental divisions)
+
+## Building
+
+### Linux
+```bash
+./build.sh
+```
+
+### Windows
+```bat
+build.bat
+```
+
+Both scripts compile all Java sources under `source-code/` and package them into `Brarner.M.Alete.jar`. Place jDSP and other dependency JARs in `lib/` before building.
 
 ## Dependencies
 
