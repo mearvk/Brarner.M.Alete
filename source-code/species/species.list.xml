@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Kingdom name="Animalia">
+    <Phylum name="Cnidaria">
+
+        <Subphylum name="Anthozoa">
+            <Class name="Anthozoa">
+
+                <Subclass name="Hexacorallia">
+                    <Order name="Actiniaria">
+
+                        <Suborder name="Endocoelantheae">
+                            <Family name="Actinernidae" />
+                            <Family name="Halcuriidae" />
+                        </Suborder>
+
+                        <Suborder name="Nyantheae">
+                            <Infraorder name="Athenaria">
+                                <Family name="Andresiidae" />
+                                <Family name="Andwakiidae" />
+                                <Family name="Edwardsiidae" />
+                                <Family name="Galatheanthemidae" />
+                                <Family name="Halcampidae" />
+                                <Family name="Halcampoididae" />
+                                <Family name="Haliactiidae" />
+                                <Family name="Haloclavidae" />
+                                <Family name="Ilyanthidae" />
+                                <Family name="Limnactiniidae" />
+                                <Family name="Octineonidae" />
+                            </Infraorder>
+
+                            <Infraorder name="Boloceroidaria">
+                                <Family name="Boloceroididae" />
+                                <Family name="Nevadneidae" />
+                            </Infraorder>
+
+                            <Infraorder name="Thenaria">
+                                <Family name="Acontiophoridae" />
+                                <Family name="Actiniidae" />
+                                <Family name="Actinodendronidae" />
+                                <Family name="Actinoscyphiidae" />
+                                <Family name="Actinostolidae" />
+                                <Family name="Aiptasiidae" />
+                                <Family name="Aiptasiomorphidae" />
+                                <Family name="Aliciidae" />
+                                <Family name="Aurelianidae" />
+                                <Family name="Bathyphelliidae" />
+                                <Family name="Condylanthidae" />
+                                <Family name="Diadumenidae" />
+                                <Family name="Discosomidae" />
+                                <Family name="Exocoelactiidae" />
+                                <Family name="Haliplanellidae" />
+                                <Family name="Hormathiidae" />
+                                <Family name="Iosactiidae" />
+                                <Family name="Isanthidae" />
+                                <Family name="Isophelliidae" />
+                                <Family name="Liponematidae" />
+                                <Family name="Metridiidae" />
+                                <Family name="Minyadidae" />
+                                <Family name="Nemanthidae" />
+                                <Family name="Paractidae" />
+                                <Family name="Phymanthidae" />
+                                <Family name="Sagartiidae" />
+                                <Family name="Sagartiomorphidae" />
+                                <Family name="Stichodactylidae" />
+                                <Family name="Thalassianthidae" />
+                            </Infraorder>
+                        </Suborder>
+
+                        <Suborder name="Protantheae">
+                            <Family name="Gonactiniidae" />
+                        </Suborder>
+
+                        <Suborder name="Ptychodacteae">
+                            <Family name="Preactiidae" />
+                            <Family name="Ptychodactiidae" />
+                        </Suborder>
+                    </Order>
+
+                    <Order name="Antipatharia">
+                        <Family name="Antipathidae" />
+                        <Family name="Aphanipathidae" />
+                        <Family name="Cladopathidae" />
+                        <Family name="Leiopathidae" />
+                        <Family name="Myriopathidae" />
+                        <Family name="Schizopathidae" />
+                    </Order>
+
+                    <Order name="Ceriantharia">
+                        <Family name="Botrucnidiferidae" />
+                        <Family name="Cerianthidae" />
+                    </Order>
+
+                    <Order name="Corallimorpharia">
+                        <Family name="Actinodiscidae" />
+                        <Family name="Corallimorphidae" />
+                    </Order>
+
+                    <Order name="Rugosa" />
+
+                    <Order name="Scleractinia">
+                        <Suborder name="Astrocoeniina">
+                            <Family name="Acroporidae" />
+                            <Family name="Astrocoeniidae" />
+                            <Family name="Pocilloporidae" />
+                        </Suborder>
+
+                        <Suborder name="Caryophylliina">
+                            <Family name="Caryophylliidae" />
+                            <Family name="Flabellidae" />
+                            <Family name="Gardineriidae" />
+                            <Family name="Guyniidae" />
+                            <Family name="Turbinoliidae" />
+                        </Suborder>
+
+                        <Suborder name="Dendrophylliina">
+                            <Family name="Dendrophylliidae" />
+                        </Suborder>
+
+                        <Suborder name="Faviina">
+                            <Family name="Anthemiphylliidae" />
+                            <Family name="Faviidae" />
+                            <Family name="Meandrinidae" />
+                            <Family name="Merulinidae" />
+                            <Family name="Mussidae" />
+                            <Family name="Oculinidae" />
+                            <Family name="Pectiniidae" />
+                            <Family name="Rhizangiidae" />
+                            <Family name="Trachyphylliidae" />
+                        </Suborder>
+
+                        <Suborder name="Fungiina">
+                            <Family name="Agariciidae" />
+                            <Family name="Fungiacyathidae" />
+                            <Family name="Fungiidae" />
+                            <Family name="Micrabaciidae" />
+                            <Family name="Poritidae" />
+                            <Family name="Siderastreidae" />
+                            <Family name="Thamnasteriidae" />
+                        </Suborder>
+                    </Order>
+
+                    <Order name="Zoantharia">
+                        <Family name="Epizoanthidae" />
+                        <Family name="Gerardiidae" />
+                        <Family name="Parazoanthidae" />
+                        <Family name="Zoanthidae" />
+                    </Order>
+                </Subclass>
+
+                <Subclass name="Octocorallia">
+                    <Order name="Alcyonacea">
+                        <Family name="Astrospiculariidae" />
+                        <Family name="Clavulariidae" />
+                        <Family name="Cornulariidae" />
+                        <Family name="Nephtheidae" />
+                        <Family name="Siphonogorgiidae" />
+                        <Family name="Tubiporidae" />
+                        <Family name="Xeniidae" />
+
+                        <Suborder name="Alcyoniina">
+                            <Family name="Alcyoniidae" />
+                            <Family name="Nidaliidae" />
+                        </Suborder>
+
+                        <Suborder name="Calcaxonia">
+                            <Family name="Ellisellidae" />
+                            <Family name="Isididae" />
+                            <Family name="Primnoidae" />
+                        </Suborder>
+
+                        <Suborder name="Holaxonia">
+                            <Family name="Acanthogorgiidae" />
+                            <Family name="Ainigmaptilidae" />
+                            <Family name="Chrysogorgiidae" />
+                            <Family name="Gorgoniidae" />
+                            <Family name="Ifalukellidae" />
+                            <Family name="Paramuriceidae" />
+                            <Family name="Plexauridae" />
+                        </Suborder>
+
+                        <Suborder name="Scleraxonia">
+                            <Family name="Anthothelidae" />
+                            <Family name="Briareidae" />
+                            <Family name="Briaridae" />
+                            <Family name="Coralliidae" />
+                            <Family name="Keroeididae" />
+                            <Family name="Melithaeidae" />
+                            <Family name="Paragorgiidae" />
+                            <Family name="Parisididae" />
+                            <Family name="Subergorgiidae" />
+                        </Suborder>
+                    </Order>
+
+                    <Order name="Helioporacea">
+                        <Family name="Ceratoporellidae" />
+                        <Family name="Helioporidae" />
+                    </Order>
+
+                    <Order name="Pennatulacea">
+                        <Suborder name="Sessiliflorae">
+                            <Family name="Anthoptilidae" />
+                            <Family name="Chunellidae" />
+                            <Family name="Echinoptilidae" />
+                            <Family name="Funiculinidae" />
+                            <Family name="Kophobelemnidae" />
+                            <Family name="Protoptilidae" />
+                            <Family name="Renillidae" />
+                            <Family name="Scleroptilidae" />
+                            <Family name="Stachyptilidae" />
+                            <Family name="Umbellulidae" />
+                            <Family name="Veretillidae" />
+                        </Suborder>
+
+                        <Suborder name="Subselliflorae">
+                            <Family name="Halipteridae" />
+                            <Family name="Pennatulidae" />
+                            <Family name="Pteroeididae" />
+                            <Family name="Virgulariidae" />
+                        </Suborder>
+                    </Order>
+                </Subclass>
+            </Class>
+        </Subphylum>
+
+        <Subphylum name="Medusozoa">
+
+            <Class name="Cubozoa">
+                <Order name="Carybdeida">
+                    <Family name="Carybdeidae" />
+                </Order>
+                <Order name="Chirodropida">
+                    <Family name="Chirodropidae" />
+                    <Family name="Chiropsalmidae" />
+                </Order>
+            </Class>
+
+            <Class name="Hydrozoa">
+                <Subclass name="Hydroidolina">
+
+                    <Order name="Anthoathecatae">
+                        <Family name="Monobrachiidae" />
+                        <Family name="Paragotoeidae" />
+                        <Family name="Rhysiidae" />
+                        <Family name="Stylasteridae" />
+
+                        <Suborder name="Capitata">
+                            <Family name="Acaulidae" />
+                            <Family name="Candelabridae" />
+                            <Family name="Cladocorynidae" />
+                            <Family name="Cladonematidae" />
+                            <Family name="Corymorphidae" />
+                            <Family name="Corynidae" />
+                            <Family name="Eleutheriidae" />
+                            <Family name="Halimedusidae" />
+                            <Family name="Hydridae" />
+                            <Family name="Hydrocorynidae" />
+                            <Family name="Margelopsidae" />
+                            <Family name="Milleporidae" />
+                            <Family name="Moerisiidae" />
+                            <Family name="Pennariidae" />
+                            <Family name="Polyorchidae" />
+                            <Family name="Porpitidae" />
+                            <Family name="Protohydridae" />
+                            <Family name="Solanderiidae" />
+                            <Family name="Sphaerocorynidae" />
+                            <Family name="Tubulariidae" />
+                            <Family name="Zancleidae" />
+                            <Family name="Zancleopsidae" />
+                        </Suborder>
+
+                        <Suborder name="Filifera">
+                            <Family name="Balellidae" />
+                            <Family name="Bougainvilliidae" />
+                            <Family name="Bythotiaridae" />
+                            <Family name="Cytaeididae" />
+                            <Family name="Eudendriidae" />
+                            <Family name="Hydractiniidae" />
+                            <Family name="Oceanidae" />
+                            <Family name="Pandeidae" />
+                            <Family name="Proboscidactylidae" />
+                            <Family name="Rathkeidae" />
+                            <Family name="Russelliidae" />
+                            <Family name="Trichydridae" />
+                        </Suborder>
+                    </Order>
+
+                    <Order name="Leptothecatae">
+                        <Family name="Aequoreidae" />
+                        <Family name="Aglaopheniidae" />
+                        <Family name="Blackfordiidae" />
+                        <Family name="Bonneviellidae" />
+                        <Family name="Calycellidae" />
+                        <Family name="Campanulariidae" />
+                        <Family name="Campanulinidae" />
+                        <Family name="Cirrholoveniidae" />
+                        <Family name="Dipleurosomatidae" />
+                        <Family name="Eirenidae" />
+                        <Family name="Eucheilotidae" />
+                        <Family name="Haleciidae" />
+                        <Family name="Halopterididae" />
+                        <Family name="Kirchenpaueriidae" />
+                        <Family name="Lafoeidae" />
+                        <Family name="Laodiceidae" />
+                        <Family name="Lovenellidae" />
+                        <Family name="Malagazziidae" />
+                        <Family name="Melicertidae" />
+                        <Family name="Mitrocomidae" />
+                        <Family name="Octocannoidae" />
+                        <Family name="Orchistomatidae" />
+                        <Family name="Phialellidae" />
+                        <Family name="Phialuciidae" />
+                        <Family name="Plumulariidae" />
+                        <Family name="Sertulariidae" />
+                        <Family name="Syntheciidae" />
+                        <Family name="Thyroscyphidae" />
+                        <Family name="Tiarannidae" />
+                        <Family name="Tiaropsidae" />
+                    </Order>
+
+                    <Order name="Siphonophorae">
+                        <Suborder name="Calycophorae">
+                            <Family name="Abylidae" />
+                            <Family name="Clausophyidae" />
+                            <Family name="Diphyidae" />
+                            <Family name="Hippopodiidae" />
+                            <Family name="Prayidae" />
+                            <Family name="Sphaeronectidae" />
+                        </Suborder>
+
+                        <Suborder name="Cystonectae">
+                            <Family name="Physaliidae" />
+                            <Family name="Rhizophysidae" />
+                        </Suborder>
+
+                        <Suborder name="Physonectae">
+                            <Family name="Agalmatidae" />
+                            <Family name="Apolemiidae" />
+                            <Family name="Athorybiidae" />
+                            <Family name="Forskaliidae" />
+                            <Family name="Physophoridae" />
+                            <Family name="Pyrostephidae" />
+                            <Family name="Rhodaliidae" />
+                        </Suborder>
+                    </Order>
+                </Subclass>
+
+                <Subclass name="Trachylina">
+                    <Order name="Actinulida">
+                        <Family name="Halammohydridae" />
+                        <Family name="Otohydridae" />
+                    </Order>
+
+                    <Order name="Limnomedusae">
+                        <Family name="Armorhydridae" />
+                        <Family name="Hydrolariidae" />
+                        <Family name="Microhydridae" />
+                        <Family name="Olindiidae" />
+                    </Order>
+
+                    <Order name="Narcomedusae">
+                        <Family name="Tetraplatidae" />
+                        <Suborder name="Narcomedusida">
+                            <Family name="Aeginidae" />
+                            <Family name="Cuninidae" />
+                            <Family name="Solmarisidae" />
+                        </Suborder>
+                    </Order>
+
+                    <Order name="Trachymedusae">
+                        <Family name="Geryoniidae" />
+                        <Family name="Halicreatidae" />
+                        <Family name="Petasidae" />
+                        <Family name="Ptychogastriidae" />
+                        <Family name="Rhopalonematidae" />
+                    </Order>
+                </Subclass>
+            </Class>
+
+            <Class name="Polypodiozoa">
+                <Family name="Polypodiidae" />
+            </Class>
+
+            <Class name="Scyphozoa">
+                <Order name="Coronatae" />
+            </Class>
+
+        </Subphylum>
+    </Phylum>
+</Kingdom>
