@@ -13,7 +13,6 @@
         <element id="module-output" name="ejbs" />
         <element id="module-output" name="servlet" />
       </element>
-      <element id="library" level="project" name="jdsp-3.1.1" />
     </root>
   </artifact>
 </component>
