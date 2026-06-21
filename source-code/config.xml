@@ -5,4 +5,5 @@
     <module name="postal" enabled="true" config="source-code/postal/config.xml" />
     <module name="counties" enabled="true" config="source-code/counties/config.xml" />
     <module name="ssa" enabled="true" config="source-code/ssa/config.xml" />
+    <module name="species" enabled="true" config="source-code/species/config.xml" />
 </base-server-config>

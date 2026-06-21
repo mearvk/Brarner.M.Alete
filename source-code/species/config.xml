@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Species module configuration: animalia taxonomy signal processing -->
+<module-config module="species" port-start="10400" port-end="10434">
+    <!-- One instance per phylum (35 phyla from animalia.coercus.config) -->
+    <instance name="cnidaria" port="10400" active="true" status="receiving" />
+    <instance name="ctenophora" port="10401" active="true" status="receiving" />
+    <instance name="myxozoa" port="10402" active="true" status="receiving" />
+    <instance name="placozoa" port="10403" active="true" status="receiving" />
+    <instance name="porifera" port="10404" active="true" status="receiving" />
+    <instance name="annelida" port="10405" active="true" status="receiving" />
+    <instance name="arthropoda" port="10406" active="true" status="receiving" />
+    <instance name="brachiopoda" port="10407" active="true" status="receiving" />
+    <instance name="bryozoa" port="10408" active="true" status="receiving" />
+    <instance name="chaetognatha" port="10409" active="true" status="receiving" />
+    <instance name="chordata" port="10410" active="true" status="receiving" />
+    <instance name="cycliophora" port="10411" active="false" status="standby" />
+    <instance name="echinodermata" port="10412" active="true" status="receiving" />
+    <instance name="entoprocta" port="10413" active="false" status="standby" />
+    <instance name="gastrotricha" port="10414" active="false" status="standby" />
+    <instance name="gnathostomulida" port="10415" active="false" status="standby" />
+    <instance name="hemichordata" port="10416" active="false" status="standby" />
+    <instance name="kinorhyncha" port="10417" active="false" status="standby" />
+    <instance name="loricifera" port="10418" active="false" status="standby" />
+    <instance name="micrognathozoa" port="10419" active="false" status="standby" />
+    <instance name="mollusca" port="10420" active="true" status="receiving" />
+    <instance name="nematoda" port="10421" active="true" status="receiving" />
+    <instance name="nematomorpha" port="10422" active="false" status="standby" />
+    <instance name="nemertea" port="10423" active="false" status="standby" />
+    <instance name="onychophora" port="10424" active="false" status="standby" />
+    <instance name="orthonectida" port="10425" active="false" status="standby" />
+    <instance name="phoronida" port="10426" active="false" status="standby" />
+    <instance name="platyhelminthes" port="10427" active="true" status="receiving" />
+    <instance name="priapulida" port="10428" active="false" status="standby" />
+    <instance name="rhombozoa" port="10429" active="false" status="standby" />
+    <instance name="rotifera" port="10430" active="false" status="standby" />
+    <instance name="sipuncula" port="10431" active="false" status="standby" />
+    <instance name="tardigrada" port="10432" active="false" status="standby" />
+    <instance name="xenacoelomorpha" port="10433" active="false" status="standby" />
+    <instance name="acanthocephala" port="10434" active="false" status="standby" />
+</module-config>
