@@ -10,6 +10,9 @@ public class Launcher
 {
     public static void main(String...args) throws Exception
     {
+        // Suppress JavaFX unnamed module warning
+        java.util.logging.Logger.getLogger("com.sun.javafx.application.PlatformImpl").setLevel(java.util.logging.Level.SEVERE);
+
         int memory = 768;
         try
         {

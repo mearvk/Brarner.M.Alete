@@ -12,6 +12,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.AudioEqualizer;
+import javafx.scene.media.EqualizerBand;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -25,12 +27,19 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import java.io.File;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
+import javafx.animation.AnimationTimer;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import video.analysis.YouTubeFilter;
 
 /**
@@ -58,12 +67,20 @@ public class VideoViewer extends Application
     private Slider volumeSlider;
     private boolean analysisEnabled = false;
     private YouTubeFilter youTubeFilter;
+    private Canvas spectrumCanvas;
+    private AnimationTimer spectrumTimer;
+    private float[] spectrumMagnitudes = new float[60];
+    private HBox spectrumBox;
+    private Color visualizerBg = Color.web("#f4f4f4");
+    private Color visualizerBar = Color.web("#404040");
+    private double eqBass = 0, eqMid = 0, eqTreble = 0;
 
     @Override
     public void start(Stage stage)
     {
         loadConfig();
         loadHistory();
+        initCookieStore();
 
         // Menu bar
         MenuBar menuBar = new MenuBar();
@@ -82,7 +99,23 @@ public class VideoViewer extends Application
             analysisEnabled = analysisToggle.isSelected();
             saveAnalysisSetting();
         });
-        settingsMenu.getItems().addAll(volumeItem, new SeparatorMenuItem(), analysisToggle);
+        MenuItem audioFilterItem = new MenuItem("Audio Analysis Filter");
+        audioFilterItem.setOnAction(e -> {
+            AudioAnalysisFilter filter = new AudioAnalysisFilter();
+            StringBuilder sb = new StringBuilder("Audio Analysis Filter Modules:\n\n");
+            for (AudioAnalysisFilter.Module m : filter.getModules())
+                sb.append("• ").append(m.name).append(" — ").append(m.className)
+                  .append(" [").append(m.enabled ? "enabled" : "disabled").append("]\n");
+            if (filter.getModules().isEmpty()) sb.append("(no modules configured)");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Audio Analysis Filter");
+            alert.setHeaderText(null);
+            alert.setContentText(sb.toString());
+            alert.showAndWait();
+        });
+        MenuItem equalizerItem = new MenuItem("Equalizer");
+        equalizerItem.setOnAction(e -> showEqualizerDialog());
+        settingsMenu.getItems().addAll(volumeItem, new SeparatorMenuItem(), analysisToggle, new SeparatorMenuItem(), audioFilterItem, new SeparatorMenuItem(), equalizerItem);
         menuBar.getMenus().add(settingsMenu);
 
         historyMenu = new Menu("History");
@@ -139,7 +172,7 @@ public class VideoViewer extends Application
 
         // Inline volume control
         Label volIcon = new Label("\uD83D\uDD0A");
-        volumeSlider = new Slider(0, 100, 100);
+        volumeSlider = new Slider(0, 100, 75);
         volumeSlider.setPrefWidth(120);
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             double v = newVal.doubleValue() / 100.0;
@@ -154,6 +187,29 @@ public class VideoViewer extends Application
         controlsRow.setPadding(new Insets(5));
         controlsRow.setAlignment(Pos.CENTER);
         controlsRow.setVisible(false);
+
+        // Audio spectrum visualizer widget
+        spectrumCanvas = new Canvas(width / 2.0, 100);
+        spectrumTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                GraphicsContext gc = spectrumCanvas.getGraphicsContext2D();
+                double w = spectrumCanvas.getWidth(), h = spectrumCanvas.getHeight();
+                gc.setFill(visualizerBg);
+                gc.fillRect(0, 0, w, h);
+                gc.setFill(visualizerBar);
+                double barWidth = w / spectrumMagnitudes.length;
+                for (int i = 0; i < spectrumMagnitudes.length; i++) {
+                    double pct = Math.max(0, Math.min(1, (spectrumMagnitudes[i] + 60.0) / 60.0));
+                    double barH = pct * h;
+                    gc.fillRect(i * barWidth, h - barH, barWidth - 2, barH);
+                }
+            }
+        };
+        spectrumBox = new HBox(spectrumCanvas);
+        spectrumBox.setAlignment(Pos.CENTER);
+        spectrumBox.managedProperty().bind(spectrumBox.visibleProperty());
+        spectrumBox.setVisible(false);
 
         // Audio progress bar and elapsed time
         progressBar = new ProgressBar(0);
@@ -173,7 +229,7 @@ public class VideoViewer extends Application
         HBox.setHgrow(progressBar, Priority.ALWAYS);
         progressBox.setVisible(false);
 
-        VBox root = new VBox(menuBarBox, urlBox, webView, controlsRow, progressBox);
+        VBox root = new VBox(menuBarBox, urlBox, webView, spectrumBox, controlsRow, progressBox);
         stage.setTitle(title);
         stage.setScene(new Scene(root, width, height));
         stage.show();
@@ -282,6 +338,8 @@ public class VideoViewer extends Application
         // Stop any existing native player
         if (nativePlayer != null) { nativePlayer.stop(); nativePlayer.dispose(); nativePlayer = null; }
         usingNativePlayer = false;
+        spectrumTimer.stop();
+        spectrumBox.setVisible(false);
         progressBar.getParent().setVisible(false);
         controlsRow.setVisible(false);
 
@@ -329,6 +387,11 @@ public class VideoViewer extends Application
             nativePlayer = new MediaPlayer(new Media(url));
             nativePlayer.setAutoPlay(true);
             if (volumeSlider != null) nativePlayer.setVolume(volumeSlider.getValue() / 100.0);
+            nativePlayer.setAudioSpectrumNumBands(spectrumMagnitudes.length);
+            nativePlayer.setAudioSpectrumInterval(0.05);
+            nativePlayer.setAudioSpectrumListener((ts, dur, mags, phases) -> spectrumMagnitudes = mags.clone());
+            spectrumBox.setVisible(true);
+            spectrumTimer.start();
             nativePlayer.currentTimeProperty().addListener((obs, oldVal, newVal) -> {
                 if (nativePlayer == null) return;
                 javafx.util.Duration total = nativePlayer.getTotalDuration();
@@ -431,6 +494,43 @@ public class VideoViewer extends Application
         return url;
     }
 
+    private void showEqualizerDialog()
+    {
+        Stage eqStage = new Stage();
+        eqStage.setTitle("Equalizer");
+        Slider bassSlider = new Slider(-12, 12, eqBass);
+        Slider midSlider = new Slider(-12, 12, eqMid);
+        Slider trebleSlider = new Slider(-12, 12, eqTreble);
+        bassSlider.setShowTickLabels(true);
+        midSlider.setShowTickLabels(true);
+        trebleSlider.setShowTickLabels(true);
+        bassSlider.valueProperty().addListener((o, ov, nv) -> { eqBass = nv.doubleValue(); applyEqualizer(); });
+        midSlider.valueProperty().addListener((o, ov, nv) -> { eqMid = nv.doubleValue(); applyEqualizer(); });
+        trebleSlider.valueProperty().addListener((o, ov, nv) -> { eqTreble = nv.doubleValue(); applyEqualizer(); });
+        VBox box = new VBox(10,
+            new Label("Bass"), bassSlider,
+            new Label("Mid"), midSlider,
+            new Label("Treble"), trebleSlider);
+        box.setPadding(new Insets(15));
+        eqStage.setScene(new Scene(box, 300, 250));
+        eqStage.show();
+    }
+
+    private void applyEqualizer()
+    {
+        if (!usingNativePlayer || nativePlayer == null) return;
+        AudioEqualizer eq = nativePlayer.getAudioEqualizer();
+        eq.setEnabled(true);
+        javafx.collections.ObservableList<EqualizerBand> bands = eq.getBands();
+        for (int i = 0; i < bands.size(); i++)
+        {
+            double freq = bands.get(i).getCenterFrequency();
+            if (freq < 300) bands.get(i).setGain(eqBass);
+            else if (freq < 3000) bands.get(i).setGain(eqMid);
+            else bands.get(i).setGain(eqTreble);
+        }
+    }
+
     private void loadConfig()
     {
         try
@@ -446,11 +546,47 @@ public class VideoViewer extends Application
             if (root.hasAttribute("height")) height = Integer.parseInt(root.getAttribute("height"));
             if (root.hasAttribute("title")) title = root.getAttribute("title");
             if (root.hasAttribute("analysis-enabled")) analysisEnabled = Boolean.parseBoolean(root.getAttribute("analysis-enabled"));
+            if (root.hasAttribute("visualizer-background")) visualizerBg = Color.web(root.getAttribute("visualizer-background"));
+            if (root.hasAttribute("visualizer-bar-color")) visualizerBar = Color.web(root.getAttribute("visualizer-bar-color"));
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
+    }
+
+    private static final long COOKIE_FILE_MAX_BYTES = 40L * 1024 * 1024;
+    private static final File COOKIE_FILE = new File("source-code/video.viewer/cookies.dat");
+
+    private void initCookieStore()
+    {
+        CookieManager cm = new CookieManager(null, CookiePolicy.ACCEPT_ALL);
+        CookieHandler.setDefault(cm);
+        // Load persisted cookies
+        if (COOKIE_FILE.exists() && COOKIE_FILE.length() <= COOKIE_FILE_MAX_BYTES)
+        {
+            try (java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.FileInputStream(COOKIE_FILE)))
+            {
+                @SuppressWarnings("unchecked")
+                List<java.net.HttpCookie> cookies = (List<java.net.HttpCookie>) ois.readObject();
+                for (java.net.HttpCookie c : cookies) cm.getCookieStore().add(null, c);
+            }
+            catch (Exception e) { /* ignore corrupt file */ }
+        }
+        // Save cookies on shutdown
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try
+            {
+                List<java.net.HttpCookie> cookies = cm.getCookieStore().getCookies();
+                java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                new java.io.ObjectOutputStream(baos).writeObject(new ArrayList<>(cookies));
+                if (baos.size() <= COOKIE_FILE_MAX_BYTES)
+                {
+                    java.nio.file.Files.write(COOKIE_FILE.toPath(), baos.toByteArray());
+                }
+            }
+            catch (Exception e) { /* best effort */ }
+        }));
     }
 
     private void loadHistory()
