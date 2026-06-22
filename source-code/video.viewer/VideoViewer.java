@@ -281,6 +281,11 @@ public class VideoViewer extends Application
                 + "<img src='" + imgDataUri + "' style='width:100%;height:100%;object-fit:cover;'>"
                 + "</body></html>");
         }
+        else if (lowerUrl.startsWith("http://") || lowerUrl.startsWith("https://"))
+        {
+            // General web page — load directly in WebView
+            engine.load(url);
+        }
         else
         {
             // Local video or direct URL via HTML5
