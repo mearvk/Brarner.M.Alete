@@ -39,3 +39,4 @@ build/
 
 ### Credentials ###
 configuration/.my.cnf
+libjfxwebkit.so
