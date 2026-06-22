@@ -5,6 +5,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -23,8 +25,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import java.io.File;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import video.analysis.YouTubeFilter;
 
@@ -47,6 +52,7 @@ public class VideoViewer extends Application
     private int height = 720;
     private String title = "Video Viewer";
     private List<String> history = new ArrayList<>();
+    private int historyIndex = -1;
     private Menu historyMenu;
     private Slider volumeSlider;
     private boolean analysisEnabled = false;
@@ -92,14 +98,20 @@ public class VideoViewer extends Application
         if (!history.isEmpty()) urlBar.getItems().addAll(history.subList(0, Math.min(5, history.size())));
         urlBar.setValue(videoUrl);
         urlBar.setPromptText("Enter video URL and press Enter...");
-        urlBar.getEditor().setOnAction(e -> loadVideo(urlBar.getEditor().getText().trim()));
+        urlBar.getEditor().setOnAction(e -> { if (enterToggle.isSelected()) navigateTo(urlBar.getEditor().getText().trim()); });
         urlBar.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(urlBar, Priority.ALWAYS);
+        Button backBtn = new Button("", new ImageView(new Image("file:source-code/video/viewer/images/back.png", 20, 20, true, true)));
+        backBtn.setOnAction(e -> goBack());
         Button goBtn = new Button("Go");
-        goBtn.setOnAction(e -> loadVideo(urlBar.getEditor().getText().trim()));
+        goBtn.setOnAction(e -> navigateTo(urlBar.getEditor().getText().trim()));
+        Button nextBtn = new Button("", new ImageView(new Image("file:source-code/video/viewer/images/forward.png", 20, 20, true, true)));
+        nextBtn.setOnAction(e -> goForward());
+        RadioButton enterToggle = new RadioButton("Enter");
+        enterToggle.setSelected(true);
         Button refreshBtn = new Button("\u21BB");
         refreshBtn.setOnAction(e -> loadVideo(videoUrl));
-        HBox urlBox = new HBox(5, urlBar, goBtn, refreshBtn);
+        HBox urlBox = new HBox(5, backBtn, urlBar, nextBtn, enterToggle, goBtn, refreshBtn);
         urlBox.setPadding(new Insets(5));
 
         // WebView
@@ -166,28 +178,61 @@ public class VideoViewer extends Application
         stage.show();
     }
 
+    private void navigateTo(String url)
+    {
+        if (url == null || url.isEmpty()) return;
+        // Trim forward history if we navigated back
+        if (historyIndex >= 0 && historyIndex < history.size() - 1)
+            history.subList(0, historyIndex).clear();
+        history.add(0, url);
+        historyIndex = 0;
+        loadVideo(url);
+    }
+
+    private void goBack()
+    {
+        if (historyIndex + 1 < history.size())
+        {
+            historyIndex++;
+            String url = history.get(historyIndex);
+            urlBar.setValue(url);
+            loadVideo(url);
+        }
+    }
+
+    private void goForward()
+    {
+        if (historyIndex > 0)
+        {
+            historyIndex--;
+            String url = history.get(historyIndex);
+            urlBar.setValue(url);
+            loadVideo(url);
+        }
+    }
+
     private void doPlay()
     {
         if (usingNativePlayer && nativePlayer != null) nativePlayer.play();
-        else engine.executeScript("if(ready) player.playVideo()");
+        else engine.executeScript("if(typeof ready!=='undefined'&&ready) player.playVideo()");
     }
 
     private void doStop()
     {
         if (usingNativePlayer && nativePlayer != null) { nativePlayer.stop(); }
-        else engine.executeScript("if(ready) player.stopVideo()");
+        else engine.executeScript("if(typeof ready!=='undefined'&&ready) player.stopVideo()");
     }
 
     private void doPause()
     {
         if (usingNativePlayer && nativePlayer != null) nativePlayer.pause();
-        else engine.executeScript("if(ready) player.pauseVideo()");
+        else engine.executeScript("if(typeof ready!=='undefined'&&ready) player.pauseVideo()");
     }
 
     private void doRestart()
     {
         if (usingNativePlayer && nativePlayer != null) { nativePlayer.seek(javafx.util.Duration.ZERO); nativePlayer.play(); }
-        else engine.executeScript("if(ready){player.seekTo(0,true); player.playVideo();}");
+        else engine.executeScript("if(typeof ready!=='undefined'&&ready){player.seekTo(0,true); player.playVideo();}");
     }
 
     /**
@@ -197,6 +242,29 @@ public class VideoViewer extends Application
     private void loadVideo(String url)
     {
         if (url == null || url.isEmpty()) return;
+
+        // Prepend https:// for bare domain names (e.g. "github.com", "github.com/user")
+        String lowerTrim = url.toLowerCase();
+        if (!lowerTrim.startsWith("http://") && !lowerTrim.startsWith("https://") && !lowerTrim.startsWith("file:") && url.contains("."))
+            url = "https://" + url;
+
+        // Verify SSL handshake on port 443 for HTTPS URLs (no auth required)
+        if (url.toLowerCase().startsWith("https://"))
+        {
+            try
+            {
+                String host = new URI(url).getHost();
+                SSLSocket socket = (SSLSocket) SSLSocketFactory.getDefault().createSocket(host, 443);
+                socket.startHandshake();
+                socket.close();
+            }
+            catch (Exception e)
+            {
+                System.err.println("SSL handshake failed for " + url + ": " + e.getMessage());
+                return;
+            }
+        }
+
         videoUrl = url;
 
         // Add to history

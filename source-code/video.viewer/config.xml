@@ -1,2 +1,1 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<video-viewer url="https://www.youtube.com/watch?v=EzxTGeJMC9w" width="1280" height="720" title="Video Viewer" memory="768" analysis-enabled="false" />
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><video-viewer analysis-enabled="true" height="720" memory="768" title="Video Viewer" url="https://www.youtube.com/watch?v=EzxTGeJMC9w" width="1280"/>
