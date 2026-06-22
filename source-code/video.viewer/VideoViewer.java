@@ -2,12 +2,15 @@ package video.viewer;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -21,13 +24,18 @@ import java.io.File;
 /**
  * JavaFX WebView-based video viewer with playback controls.
  * Reads configuration from video.viewer/config.xml.
+ * Uses native JavaFX MediaPlayer for local audio (WAV/MP3).
  */
 public class VideoViewer extends Application
 {
     private WebEngine engine;
     private WebView webView;
     private TextField urlBar;
-    private String videoUrl = "about:blank";
+    private MediaPlayer nativePlayer;
+    private boolean usingNativePlayer = false;
+    private ProgressBar progressBar;
+    private Label elapsedLabel;
+    private String videoUrl = "";
     private int width = 1280;
     private int height = 720;
     private String title = "Video Viewer";
@@ -44,6 +52,20 @@ public class VideoViewer extends Application
         openLocal.setOnAction(e -> openLocalFile(stage));
         fileMenu.getItems().add(openLocal);
         menuBar.getMenus().add(fileMenu);
+
+        Menu settingsMenu = new Menu("Settings");
+        MenuItem volumeItem = new MenuItem("Volume...");
+        volumeItem.setOnAction(e -> showVolumeWindow());
+        settingsMenu.getItems().add(volumeItem);
+        menuBar.getMenus().add(settingsMenu);
+
+        // Triple vertical buffer (|||) button on the right side of menu bar
+        Button settingsBtn = new Button("|||");
+        settingsBtn.setOnAction(e -> showVolumeWindow());
+        HBox menuBarBox = new HBox(menuBar, settingsBtn);
+        HBox.setHgrow(menuBar, Priority.ALWAYS);
+        settingsBtn.setStyle("-fx-font-weight:bold;");
+        menuBarBox.setAlignment(Pos.CENTER_LEFT);
 
         // URL bar
         urlBar = new TextField(videoUrl);
@@ -69,30 +91,72 @@ public class VideoViewer extends Application
         Button pauseBtn = new Button("Pause");
         Button restartBtn = new Button("Restart");
 
-        startBtn.setOnAction(e -> engine.executeScript("if(ready) player.playVideo()"));
-        stopBtn.setOnAction(e -> engine.executeScript("if(ready) player.stopVideo()"));
-        pauseBtn.setOnAction(e -> engine.executeScript("if(ready) player.pauseVideo()"));
-        restartBtn.setOnAction(e -> engine.executeScript("if(ready){player.seekTo(0,true); player.playVideo();}"));
+        startBtn.setOnAction(e -> doPlay());
+        stopBtn.setOnAction(e -> doStop());
+        pauseBtn.setOnAction(e -> doPause());
+        restartBtn.setOnAction(e -> doRestart());
 
         HBox controls = new HBox(10, startBtn, stopBtn, pauseBtn, restartBtn);
         controls.setPadding(new Insets(5));
         controls.setAlignment(Pos.CENTER);
 
-        VBox root = new VBox(menuBar, urlBox, webView, controls);
+        // Audio progress bar and elapsed time
+        progressBar = new ProgressBar(0);
+        progressBar.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(progressBar, Priority.ALWAYS);
+        elapsedLabel = new Label("0:00 / 0:00");
+        HBox progressBox = new HBox(10, progressBar, elapsedLabel);
+        progressBox.setPadding(new Insets(2, 5, 5, 5));
+        progressBox.setAlignment(Pos.CENTER_LEFT);
+        HBox.setHgrow(progressBar, Priority.ALWAYS);
+        progressBox.setVisible(false);
+
+        VBox root = new VBox(menuBarBox, urlBox, webView, controls, progressBox);
         stage.setTitle(title);
         stage.setScene(new Scene(root, width, height));
         stage.show();
     }
 
+    private void doPlay()
+    {
+        if (usingNativePlayer && nativePlayer != null) nativePlayer.play();
+        else engine.executeScript("if(ready) player.playVideo()");
+    }
+
+    private void doStop()
+    {
+        if (usingNativePlayer && nativePlayer != null) { nativePlayer.stop(); }
+        else engine.executeScript("if(ready) player.stopVideo()");
+    }
+
+    private void doPause()
+    {
+        if (usingNativePlayer && nativePlayer != null) nativePlayer.pause();
+        else engine.executeScript("if(ready) player.pauseVideo()");
+    }
+
+    private void doRestart()
+    {
+        if (usingNativePlayer && nativePlayer != null) { nativePlayer.seek(javafx.util.Duration.ZERO); nativePlayer.play(); }
+        else engine.executeScript("if(ready){player.seekTo(0,true); player.playVideo();}");
+    }
+
     /**
      * Loads a video by URL. Handles YouTube URLs via IFrame API,
-     * or local/direct URLs via HTML5 video element.
+     * local audio via native MediaPlayer, or local video via HTML5.
      */
     private void loadVideo(String url)
     {
         if (url == null || url.isEmpty()) return;
         videoUrl = url;
         urlBar.setText(url);
+
+        // Stop any existing native player
+        if (nativePlayer != null) { nativePlayer.stop(); nativePlayer.dispose(); nativePlayer = null; }
+        usingNativePlayer = false;
+        progressBar.getParent().setVisible(false);
+
+        String lowerUrl = url.toLowerCase();
 
         if (url.contains("youtube.com") || url.contains("youtu.be"))
         {
@@ -104,9 +168,29 @@ public class VideoViewer extends Application
                 + "videoId:'" + videoId + "',events:{'onReady':function(){ready=true;player.playVideo();}}});}</script></body></html>";
             engine.loadContent(html);
         }
+        else if (lowerUrl.endsWith(".wav") || lowerUrl.endsWith(".mp3"))
+        {
+            // Use native JavaFX MediaPlayer for audio files
+            usingNativePlayer = true;
+            nativePlayer = new MediaPlayer(new Media(url));
+            nativePlayer.setAutoPlay(true);
+            nativePlayer.currentTimeProperty().addListener((obs, oldVal, newVal) -> {
+                javafx.util.Duration total = nativePlayer.getTotalDuration();
+                if (total != null && total.toMillis() > 0)
+                {
+                    progressBar.setProgress(newVal.toMillis() / total.toMillis());
+                    elapsedLabel.setText(formatTime(newVal) + " / " + formatTime(total));
+                }
+            });
+            progressBar.setProgress(0);
+            elapsedLabel.setText("0:00 / 0:00");
+            progressBar.getParent().setVisible(true);
+            engine.loadContent("<html><body style='margin:0;display:flex;align-items:center;justify-content:center;height:100%'>"
+                + "<h2>Playing audio via native player</h2></body></html>");
+        }
         else
         {
-            // Local file or direct video URL
+            // Local video or direct URL via HTML5
             String html = "<!DOCTYPE html><html><body style='margin:0'>"
                 + "<video id='vid' width='100%' height='100%' controls autoplay>"
                 + "<source src='" + url + "'></video>"
@@ -124,9 +208,45 @@ public class VideoViewer extends Application
         fc.setTitle("Open Media File");
         fc.getExtensionFilters().addAll(
             new FileChooser.ExtensionFilter("Video Files", "*.mp4", "*.webm", "*.ogg", "*.avi", "*.mkv"),
+            new FileChooser.ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.ogg"),
             new FileChooser.ExtensionFilter("All Files", "*.*"));
         File file = fc.showOpenDialog(stage);
         if (file != null) loadVideo(file.toURI().toString());
+    }
+
+    private void showVolumeWindow()
+    {
+        Stage volumeStage = new Stage();
+        volumeStage.setTitle("Volume");
+
+        Slider slider = new Slider(0, 100, 100);
+        slider.setOrientation(Orientation.VERTICAL);
+        slider.setShowTickLabels(true);
+        slider.setShowTickMarks(true);
+        slider.setMajorTickUnit(10);
+        slider.setPrefHeight(200);
+
+        Label label = new Label("100");
+        slider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            int vol = newVal.intValue();
+            label.setText(String.valueOf(vol));
+            double v = vol / 100.0;
+            if (usingNativePlayer && nativePlayer != null) nativePlayer.setVolume(v);
+            else engine.executeScript("if(typeof player!=='undefined' && player.setVolume) player.setVolume(" + vol + ");"
+                + "var el=document.getElementById('vid'); if(el) el.volume=" + v + ";");
+        });
+
+        VBox box = new VBox(10, new Label("Volume"), slider, label);
+        box.setAlignment(Pos.CENTER);
+        box.setPadding(new Insets(10));
+        volumeStage.setScene(new Scene(box, 100, 280));
+        volumeStage.show();
+    }
+
+    private String formatTime(javafx.util.Duration d)
+    {
+        int seconds = (int) d.toSeconds();
+        return String.format("%d:%02d", seconds / 60, seconds % 60);
     }
 
     private String extractVideoId(String url)
