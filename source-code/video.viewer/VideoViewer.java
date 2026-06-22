@@ -47,6 +47,7 @@ public class VideoViewer extends Application
     private boolean usingNativePlayer = false;
     private ProgressBar progressBar;
     private Label elapsedLabel;
+    private HBox controlsRow;
     private String videoUrl = "";
     private int width = 1280;
     private int height = 720;
@@ -98,7 +99,7 @@ public class VideoViewer extends Application
         if (!history.isEmpty()) urlBar.getItems().addAll(history.subList(0, Math.min(5, history.size())));
         urlBar.setValue(videoUrl);
         urlBar.setPromptText("Enter video URL and press Enter...");
-        urlBar.getEditor().setOnAction(e -> { if (enterToggle.isSelected()) navigateTo(urlBar.getEditor().getText().trim()); });
+        urlBar.getEditor().setOnAction(e -> navigateTo(urlBar.getEditor().getText().trim()));
         urlBar.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(urlBar, Priority.ALWAYS);
         Button backBtn = new Button("", new ImageView(new Image("file:source-code/video/viewer/images/back.png", 20, 20, true, true)));
@@ -107,16 +108,15 @@ public class VideoViewer extends Application
         goBtn.setOnAction(e -> navigateTo(urlBar.getEditor().getText().trim()));
         Button nextBtn = new Button("", new ImageView(new Image("file:source-code/video/viewer/images/forward.png", 20, 20, true, true)));
         nextBtn.setOnAction(e -> goForward());
-        RadioButton enterToggle = new RadioButton("Enter");
-        enterToggle.setSelected(true);
         Button refreshBtn = new Button("\u21BB");
         refreshBtn.setOnAction(e -> loadVideo(videoUrl));
-        HBox urlBox = new HBox(5, backBtn, urlBar, nextBtn, enterToggle, goBtn, refreshBtn);
+        HBox urlBox = new HBox(5, backBtn, urlBar, nextBtn, goBtn, refreshBtn);
         urlBox.setPadding(new Insets(5));
 
         // WebView
         webView = new WebView();
         engine = webView.getEngine();
+        engine.locationProperty().addListener((obs, oldLoc, newLoc) -> { if (newLoc != null && !newLoc.isEmpty()) { videoUrl = newLoc; urlBar.setValue(newLoc); } });
         VBox.setVgrow(webView, Priority.ALWAYS);
 
         // Load initial video
@@ -150,9 +150,10 @@ public class VideoViewer extends Application
         HBox volBox = new HBox(5, volIcon, volumeSlider);
         volBox.setAlignment(Pos.CENTER);
 
-        HBox controlsRow = new HBox(20, controls, volBox);
+        controlsRow = new HBox(20, controls, volBox);
         controlsRow.setPadding(new Insets(5));
         controlsRow.setAlignment(Pos.CENTER);
+        controlsRow.setVisible(false);
 
         // Audio progress bar and elapsed time
         progressBar = new ProgressBar(0);
@@ -282,6 +283,7 @@ public class VideoViewer extends Application
         if (nativePlayer != null) { nativePlayer.stop(); nativePlayer.dispose(); nativePlayer = null; }
         usingNativePlayer = false;
         progressBar.getParent().setVisible(false);
+        controlsRow.setVisible(false);
 
         String lowerUrl = url.toLowerCase();
 
@@ -323,6 +325,7 @@ public class VideoViewer extends Application
         {
             // Use native JavaFX MediaPlayer for audio files
             usingNativePlayer = true;
+            controlsRow.setVisible(true);
             nativePlayer = new MediaPlayer(new Media(url));
             nativePlayer.setAutoPlay(true);
             if (volumeSlider != null) nativePlayer.setVolume(volumeSlider.getValue() / 100.0);
