@@ -92,7 +92,7 @@ public class VideoViewer extends Application
         if (!history.isEmpty()) urlBar.getItems().addAll(history.subList(0, Math.min(5, history.size())));
         urlBar.setValue(videoUrl);
         urlBar.setPromptText("Enter video URL and press Enter...");
-        urlBar.setOnAction(e -> loadVideo(urlBar.getEditor().getText().trim()));
+        urlBar.getEditor().setOnAction(e -> loadVideo(urlBar.getEditor().getText().trim()));
         urlBar.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(urlBar, Priority.ALWAYS);
         Button goBtn = new Button("Go");
