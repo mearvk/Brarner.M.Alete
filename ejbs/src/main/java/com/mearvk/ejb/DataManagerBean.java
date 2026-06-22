@@ -1,5 +1,6 @@
 package com.mearvk.ejb;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.*;
 import javax.sql.DataSource;
 import javax.naming.*;

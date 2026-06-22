@@ -26,6 +26,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import video.analysis.YouTubeFilter;
+
 /**
  * JavaFX WebView-based video viewer with playback controls.
  * Reads configuration from video.viewer/config.xml.
@@ -47,6 +49,8 @@ public class VideoViewer extends Application
     private List<String> history = new ArrayList<>();
     private Menu historyMenu;
     private Slider volumeSlider;
+    private boolean analysisEnabled = false;
+    private YouTubeFilter youTubeFilter;
 
     @Override
     public void start(Stage stage)
@@ -65,7 +69,13 @@ public class VideoViewer extends Application
         Menu settingsMenu = new Menu("Settings");
         MenuItem volumeItem = new MenuItem("Volume (use slider in controls)");
         volumeItem.setDisable(true);
-        settingsMenu.getItems().add(volumeItem);
+        CheckMenuItem analysisToggle = new CheckMenuItem("YouTube Analysis Filter");
+        analysisToggle.setSelected(analysisEnabled);
+        analysisToggle.setOnAction(e -> {
+            analysisEnabled = analysisToggle.isSelected();
+            saveAnalysisSetting();
+        });
+        settingsMenu.getItems().addAll(volumeItem, new SeparatorMenuItem(), analysisToggle);
         menuBar.getMenus().add(settingsMenu);
 
         historyMenu = new Menu("History");
@@ -79,8 +89,8 @@ public class VideoViewer extends Application
         // URL bar
         urlBar = new ComboBox<>();
         urlBar.setEditable(true);
+        if (!history.isEmpty()) urlBar.getItems().addAll(history.subList(0, Math.min(5, history.size())));
         urlBar.setValue(videoUrl);
-        urlBar.getItems().setAll(history.subList(0, Math.min(5, history.size())));
         urlBar.setPromptText("Enter video URL and press Enter...");
         urlBar.setOnAction(e -> loadVideo(urlBar.getEditor().getText().trim()));
         urlBar.setMaxWidth(Double.MAX_VALUE);
@@ -188,7 +198,6 @@ public class VideoViewer extends Application
     {
         if (url == null || url.isEmpty()) return;
         videoUrl = url;
-        urlBar.setValue(url);
 
         // Add to history
         history.remove(url);
@@ -197,7 +206,9 @@ public class VideoViewer extends Application
         saveHistory();
         rebuildHistoryMenu();
         // Update dropdown with last 5
+        urlBar.getSelectionModel().clearSelection();
         urlBar.getItems().setAll(history.subList(0, Math.min(5, history.size())));
+        urlBar.setValue(url);
 
         // Stop any existing native player
         if (nativePlayer != null) { nativePlayer.stop(); nativePlayer.dispose(); nativePlayer = null; }
@@ -208,6 +219,9 @@ public class VideoViewer extends Application
 
         if (url.contains("youtube.com") || url.contains("youtu.be"))
         {
+            // Run analysis filter in background if enabled
+            if (analysisEnabled) runAnalysis(url);
+
             String videoId = extractVideoId(url);
             String html = "<!DOCTYPE html><html><body style='margin:0'>"
                 + "<div id='player'></div>"
@@ -284,6 +298,30 @@ public class VideoViewer extends Application
         }
     }
 
+    private void runAnalysis(String url)
+    {
+        if (youTubeFilter == null) youTubeFilter = new YouTubeFilter();
+        new Thread(() -> {
+            try { youTubeFilter.filter(url); }
+            catch (Exception e) { System.err.println("Analysis filter error: " + e.getMessage()); }
+        }).start();
+    }
+
+    private void saveAnalysisSetting()
+    {
+        try
+        {
+            File configFile = new File("source-code/video.viewer/config.xml");
+            if (!configFile.exists()) configFile = new File("video.viewer/config.xml");
+            if (!configFile.exists()) return;
+            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configFile);
+            Element root = doc.getDocumentElement();
+            root.setAttribute("analysis-enabled", String.valueOf(analysisEnabled));
+            TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(configFile));
+        }
+        catch (Exception e) { e.printStackTrace(); }
+    }
+
     private void openLocalFile(Stage stage)
     {
         FileChooser fc = new FileChooser();
@@ -331,6 +369,7 @@ public class VideoViewer extends Application
             if (root.hasAttribute("width")) width = Integer.parseInt(root.getAttribute("width"));
             if (root.hasAttribute("height")) height = Integer.parseInt(root.getAttribute("height"));
             if (root.hasAttribute("title")) title = root.getAttribute("title");
+            if (root.hasAttribute("analysis-enabled")) analysisEnabled = Boolean.parseBoolean(root.getAttribute("analysis-enabled"));
         }
         catch (Exception e)
         {
