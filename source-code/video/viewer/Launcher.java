@@ -16,7 +16,7 @@ public class Launcher
         int memory = 768;
         try
         {
-            File configFile = new File("video.viewer/config.xml");
+            File configFile = new File("video/viewer/config/config.xml");
             if (!configFile.exists()) configFile = new File("source-code/video.viewer/config.xml");
             if (configFile.exists())
             {

@@ -45,7 +45,7 @@ public class AudioAnalysisFilter
         try
         {
             File file = new File(CONFIG_FILE);
-            if (!file.exists()) file = new File("video.viewer/audio-analysis-filter.config.xml");
+            if (!file.exists()) file = new File("video/viewer/config/audio-analysis-filter.config.xml");
             if (!file.exists()) { System.err.println("AudioAnalysisFilter: config not found"); return; }
 
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);

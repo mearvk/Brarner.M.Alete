@@ -66,6 +66,7 @@ public class VideoViewer extends Application
     private Menu historyMenu;
     private Slider volumeSlider;
     private boolean analysisEnabled = false;
+    private boolean audioAnalysisEnabled = false;
     private YouTubeFilter youTubeFilter;
     private Canvas spectrumCanvas;
     private AnimationTimer spectrumTimer;
@@ -74,6 +75,7 @@ public class VideoViewer extends Application
     private Color visualizerBg = Color.web("#f4f4f4");
     private Color visualizerBar = Color.web("#404040");
     private double eqBass = 0, eqMid = 0, eqTreble = 0;
+    private String progressBarColor = "#606060";
 
     @Override
     public void start(Stage stage)
@@ -99,23 +101,15 @@ public class VideoViewer extends Application
             analysisEnabled = analysisToggle.isSelected();
             saveAnalysisSetting();
         });
-        MenuItem audioFilterItem = new MenuItem("Audio Analysis Filter");
-        audioFilterItem.setOnAction(e -> {
-            AudioAnalysisFilter filter = new AudioAnalysisFilter();
-            StringBuilder sb = new StringBuilder("Audio Analysis Filter Modules:\n\n");
-            for (AudioAnalysisFilter.Module m : filter.getModules())
-                sb.append("• ").append(m.name).append(" — ").append(m.className)
-                  .append(" [").append(m.enabled ? "enabled" : "disabled").append("]\n");
-            if (filter.getModules().isEmpty()) sb.append("(no modules configured)");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Audio Analysis Filter");
-            alert.setHeaderText(null);
-            alert.setContentText(sb.toString());
-            alert.showAndWait();
+        CheckMenuItem audioAnalysisToggle = new CheckMenuItem("Audio Analysis Filter");
+        audioAnalysisToggle.setSelected(audioAnalysisEnabled);
+        audioAnalysisToggle.setOnAction(e -> {
+            audioAnalysisEnabled = audioAnalysisToggle.isSelected();
+            saveAnalysisSetting();
         });
         MenuItem equalizerItem = new MenuItem("Equalizer");
         equalizerItem.setOnAction(e -> showEqualizerDialog());
-        settingsMenu.getItems().addAll(volumeItem, new SeparatorMenuItem(), analysisToggle, new SeparatorMenuItem(), audioFilterItem, new SeparatorMenuItem(), equalizerItem);
+        settingsMenu.getItems().addAll(volumeItem, new SeparatorMenuItem(), analysisToggle, audioAnalysisToggle, new SeparatorMenuItem(), equalizerItem);
         menuBar.getMenus().add(settingsMenu);
 
         historyMenu = new Menu("History");
@@ -133,6 +127,7 @@ public class VideoViewer extends Application
         urlBar.setValue(videoUrl);
         urlBar.setPromptText("Enter video URL and press Enter...");
         urlBar.getEditor().setOnAction(e -> navigateTo(urlBar.getEditor().getText().trim()));
+        urlBar.setOnKeyPressed(e -> { if (e.getCode() == javafx.scene.input.KeyCode.ENTER) navigateTo(urlBar.getEditor().getText().trim()); });
         urlBar.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(urlBar, Priority.ALWAYS);
         Button backBtn = new Button("", new ImageView(new Image("file:source-code/video/viewer/images/back.png", 20, 20, true, true)));
@@ -143,7 +138,7 @@ public class VideoViewer extends Application
         nextBtn.setOnAction(e -> goForward());
         Button refreshBtn = new Button("\u21BB");
         refreshBtn.setOnAction(e -> loadVideo(videoUrl));
-        HBox urlBox = new HBox(5, backBtn, urlBar, nextBtn, goBtn, refreshBtn);
+        HBox urlBox = new HBox(5, backBtn, goBtn, urlBar, nextBtn, refreshBtn);
         urlBox.setPadding(new Insets(5));
 
         // WebView
@@ -151,9 +146,6 @@ public class VideoViewer extends Application
         engine = webView.getEngine();
         engine.locationProperty().addListener((obs, oldLoc, newLoc) -> { if (newLoc != null && !newLoc.isEmpty()) { videoUrl = newLoc; urlBar.setValue(newLoc); } });
         VBox.setVgrow(webView, Priority.ALWAYS);
-
-        // Load initial video
-        loadVideo(videoUrl);
 
         // Playback controls
         Button startBtn = new Button("Start");
@@ -214,6 +206,7 @@ public class VideoViewer extends Application
         // Audio progress bar and elapsed time
         progressBar = new ProgressBar(0);
         progressBar.setMaxWidth(Double.MAX_VALUE);
+        progressBar.setStyle("-fx-accent: " + progressBarColor + ";");
         progressBar.setOnMouseClicked(e -> {
             if (usingNativePlayer && nativePlayer != null && nativePlayer.getTotalDuration() != null)
             {
@@ -233,6 +226,9 @@ public class VideoViewer extends Application
         stage.setTitle(title);
         stage.setScene(new Scene(root, width, height));
         stage.show();
+
+        // Load initial video
+        loadVideo(videoUrl);
     }
 
     private void navigateTo(String url)
@@ -338,8 +334,8 @@ public class VideoViewer extends Application
         // Stop any existing native player
         if (nativePlayer != null) { nativePlayer.stop(); nativePlayer.dispose(); nativePlayer = null; }
         usingNativePlayer = false;
-        spectrumTimer.stop();
-        spectrumBox.setVisible(false);
+        if (spectrumTimer != null) spectrumTimer.stop();
+        if (spectrumBox != null) spectrumBox.setVisible(false);
         progressBar.getParent().setVisible(false);
         controlsRow.setVisible(false);
 
@@ -372,10 +368,7 @@ public class VideoViewer extends Application
                 + "'onPlaybackQualityChange':function(e){var q=e.data;var fps=q.indexOf('60')>-1?'60 fps':'30 fps';"
                 + "document.getElementById('fps-info').style.display='block';"
                 + "document.getElementById('fps-info').textContent=fps+' (quality: '+q+')';},"
-                + "'onError':function(e){if(e.data===150||e.data===153){document.body.innerHTML="
-                + "'<div style=\"display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column\">"
-                + "<h2>Video restricted from embedding (Error '+e.data+')</h2>"
-                + "<a href=\"https://www.youtube.com/watch?v=" + videoId + "\" style=\"font-size:1.2em\">Watch on YouTube</a></div>';}}"
+                + "'onError':function(e){if(e.data===150||e.data===153){window.location.href='https://www.youtube.com/watch?v=" + videoId + "';}}"
                 + "}});}</script></body></html>";
             engine.loadContent(html);
         }
@@ -392,6 +385,7 @@ public class VideoViewer extends Application
             nativePlayer.setAudioSpectrumListener((ts, dur, mags, phases) -> spectrumMagnitudes = mags.clone());
             spectrumBox.setVisible(true);
             spectrumTimer.start();
+            if (audioAnalysisEnabled) runAudioAnalysis(url);
             nativePlayer.currentTimeProperty().addListener((obs, oldVal, newVal) -> {
                 if (nativePlayer == null) return;
                 javafx.util.Duration total = nativePlayer.getTotalDuration();
@@ -446,16 +440,46 @@ public class VideoViewer extends Application
         }).start();
     }
 
+    private void runAudioAnalysis(String url)
+    {
+        new Thread(() -> {
+            try
+            {
+                java.net.URI uri = new java.net.URI(url);
+                File audioFile = new File(uri);
+                String name = audioFile.getName().replaceAll("\\.[^.]+$", "").replaceAll("[^a-zA-Z0-9._-]", "_");
+                String date = java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                File outDir = new File("source-code/data");
+                outDir.mkdirs();
+                File outFile = new File(outDir, name + "." + date + ".data");
+                byte[] content = java.nio.file.Files.readAllBytes(audioFile.toPath());
+                try (java.io.DataOutputStream dos = new java.io.DataOutputStream(new java.io.FileOutputStream(outFile)))
+                {
+                    dos.writeBytes("# Audio Analysis Data File\n");
+                    dos.writeBytes("# Source: " + audioFile.getName() + "\n");
+                    dos.writeBytes("# Date: " + date + "\n");
+                    dos.writeBytes("# ContentLength: " + content.length + "\n");
+                    dos.writeBytes("# END_HEADER\n");
+                    dos.writeInt(content.length);
+                    dos.write(content);
+                }
+                System.out.println("Audio analysis output: " + outFile.getPath());
+            }
+            catch (Exception e) { System.err.println("Audio analysis error: " + e.getMessage()); }
+        }).start();
+    }
+
     private void saveAnalysisSetting()
     {
         try
         {
             File configFile = new File("source-code/video.viewer/config.xml");
-            if (!configFile.exists()) configFile = new File("video.viewer/config.xml");
+            if (!configFile.exists()) configFile = new File("video/viewer/config/config.xml");
             if (!configFile.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configFile);
             Element root = doc.getDocumentElement();
             root.setAttribute("analysis-enabled", String.valueOf(analysisEnabled));
+            root.setAttribute("audio-analysis-enabled", String.valueOf(audioAnalysisEnabled));
             TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(configFile));
         }
         catch (Exception e) { e.printStackTrace(); }
@@ -535,7 +559,8 @@ public class VideoViewer extends Application
     {
         try
         {
-            File configFile = new File("video.viewer/config.xml");
+            File configFile = new File("video/viewer/config/config.xml");
+            if (!configFile.exists()) configFile = new File("source-code/video.viewer/config.xml");
             if (!configFile.exists()) return;
 
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configFile);
@@ -546,8 +571,10 @@ public class VideoViewer extends Application
             if (root.hasAttribute("height")) height = Integer.parseInt(root.getAttribute("height"));
             if (root.hasAttribute("title")) title = root.getAttribute("title");
             if (root.hasAttribute("analysis-enabled")) analysisEnabled = Boolean.parseBoolean(root.getAttribute("analysis-enabled"));
+            if (root.hasAttribute("audio-analysis-enabled")) audioAnalysisEnabled = Boolean.parseBoolean(root.getAttribute("audio-analysis-enabled"));
             if (root.hasAttribute("visualizer-background")) visualizerBg = Color.web(root.getAttribute("visualizer-background"));
             if (root.hasAttribute("visualizer-bar-color")) visualizerBar = Color.web(root.getAttribute("visualizer-bar-color"));
+            if (root.hasAttribute("progress-bar-color")) progressBarColor = root.getAttribute("progress-bar-color");
         }
         catch (Exception e)
         {
@@ -594,7 +621,7 @@ public class VideoViewer extends Application
         try
         {
             File file = new File("source-code/video.viewer/history.xml");
-            if (!file.exists()) file = new File("video.viewer/history.xml");
+            if (!file.exists()) file = new File("video/viewer/config/history.xml");
             if (!file.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
             NodeList items = doc.getElementsByTagName("item");
@@ -618,7 +645,7 @@ public class VideoViewer extends Application
                 root.appendChild(item);
             }
             File outFile = new File("source-code/video.viewer/history.xml");
-            if (!outFile.getParentFile().exists()) outFile = new File("video.viewer/history.xml");
+            if (!outFile.getParentFile().exists()) outFile = new File("video/viewer/config/history.xml");
             outFile.getParentFile().mkdirs();
             TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(outFile));
         }
