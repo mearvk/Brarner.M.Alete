@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class AudioAnalysisFilter
 {
-    private static final String CONFIG_FILE = "source-code/video.viewer/audio-analysis-filter.config.xml";
+    private static final String CONFIG_FILE = "source-code/video/viewer/config/audio-analysis-filter.config.xml";
 
     private final List<Module> modules = new ArrayList<>();
 

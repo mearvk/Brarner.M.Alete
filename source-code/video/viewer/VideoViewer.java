@@ -473,7 +473,7 @@ public class VideoViewer extends Application
     {
         try
         {
-            File configFile = new File("source-code/video.viewer/config.xml");
+            File configFile = new File("source-code/video/viewer/config/config.xml");
             if (!configFile.exists()) configFile = new File("video/viewer/config/config.xml");
             if (!configFile.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configFile);
@@ -559,8 +559,8 @@ public class VideoViewer extends Application
     {
         try
         {
-            File configFile = new File("video/viewer/config/config.xml");
-            if (!configFile.exists()) configFile = new File("source-code/video.viewer/config.xml");
+            File configFile = new File("source-code/video/viewer/config/config.xml");
+            if (!configFile.exists()) configFile = new File("video/viewer/config/config.xml");
             if (!configFile.exists()) return;
 
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(configFile);
@@ -583,7 +583,7 @@ public class VideoViewer extends Application
     }
 
     private static final long COOKIE_FILE_MAX_BYTES = 40L * 1024 * 1024;
-    private static final File COOKIE_FILE = new File("source-code/video.viewer/cookies.dat");
+    private static final File COOKIE_FILE = new File("source-code/video/viewer/config/cookies.dat");
 
     private void initCookieStore()
     {
@@ -620,7 +620,7 @@ public class VideoViewer extends Application
     {
         try
         {
-            File file = new File("source-code/video.viewer/history.xml");
+            File file = new File("source-code/video/viewer/config/history.xml");
             if (!file.exists()) file = new File("video/viewer/config/history.xml");
             if (!file.exists()) return;
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
@@ -644,8 +644,7 @@ public class VideoViewer extends Application
                 item.setTextContent(url);
                 root.appendChild(item);
             }
-            File outFile = new File("source-code/video.viewer/history.xml");
-            if (!outFile.getParentFile().exists()) outFile = new File("video/viewer/config/history.xml");
+            File outFile = new File("source-code/video/viewer/config/history.xml");
             outFile.getParentFile().mkdirs();
             TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(outFile));
         }
