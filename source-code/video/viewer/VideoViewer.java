@@ -144,7 +144,29 @@ public class VideoViewer extends Application
         // WebView
         webView = new WebView();
         engine = webView.getEngine();
+        engine.setUserAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36");
         engine.locationProperty().addListener((obs, oldLoc, newLoc) -> { if (newLoc != null && !newLoc.isEmpty()) { videoUrl = newLoc; urlBar.setValue(newLoc); } });
+        engine.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                engine.executeScript(
+                    "HTMLMediaElement.prototype._canPlayType = HTMLMediaElement.prototype.canPlayType;"
+                    + "HTMLMediaElement.prototype.canPlayType = function(type) {"
+                    + "  if (type && type.indexOf('audio/mp4') !== -1) return 'probably';"
+                    + "  if (type && type.indexOf('audio/aac') !== -1) return 'probably';"
+                    + "  return this._canPlayType(type);"
+                    + "};"
+                    + "var _srcDesc = Object.getOwnPropertyDescriptor(HTMLMediaElement.prototype, 'src');"
+                    + "if (_srcDesc && _srcDesc.set) {"
+                    + "  Object.defineProperty(HTMLMediaElement.prototype, 'src', {"
+                    + "    set: function(v) {"
+                    + "      if (v && v.indexOf('data:') === 0) v = v.replace(/, /g, ',');"
+                    + "      _srcDesc.set.call(this, v);"
+                    + "    },"
+                    + "    get: _srcDesc.get"
+                    + "  });"
+                    + "}");
+            }
+        });
         VBox.setVgrow(webView, Priority.ALWAYS);
 
         // Playback controls
