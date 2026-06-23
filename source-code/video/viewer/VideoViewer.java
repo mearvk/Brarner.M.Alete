@@ -77,12 +77,18 @@ public class VideoViewer extends Application
     private double eqBass = 0, eqMid = 0, eqTreble = 0;
     private String progressBarColor = "#606060";
 
+    private ModuleInstallListener moduleInstallListener;
+
     @Override
     public void start(Stage stage)
     {
         loadConfig();
         loadHistory();
         initCookieStore();
+
+        // Start module install listener on port 2000
+        moduleInstallListener = new ModuleInstallListener();
+        moduleInstallListener.start();
 
         // Menu bar
         MenuBar menuBar = new MenuBar();
