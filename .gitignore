@@ -41,5 +41,6 @@ build/
 configuration/.my.cnf
 libjfxwebkit.so
 
-### Large DLLs (>50MB) ###
+### Large files (>50MB) ###
 jars/java-fx/javafx-sdk-26.0.1/bin/jfxwebkit.dll
+jars/java-fx/javafx-jdk.zip
