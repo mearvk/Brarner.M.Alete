@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Saudi Arabia</country-name>
+    <iso-code>SA</iso-code>
+    <continent>Asia</continent>
+    <capital>Riyadh</capital>
+    <population>37000000</population>
+    <area-sq-km>2149690</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11150</socket-port>
+    <local-input-path>source-code/countries/saudi-arabia/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/saudi-arabia</output-dir>
+</signal-processing-config>

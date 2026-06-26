@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Tonga</country-name>
+    <iso-code>TO</iso-code>
+    <continent>Oceania</continent>
+    <capital>Nuku'alofa</capital>
+    <population>108000</population>
+    <area-sq-km>747</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11175</socket-port>
+    <local-input-path>source-code/countries/tonga/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/tonga</output-dir>
+</signal-processing-config>

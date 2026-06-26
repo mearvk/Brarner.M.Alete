@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Malta</country-name>
+    <iso-code>MT</iso-code>
+    <continent>Europe</continent>
+    <capital>Valletta</capital>
+    <population>535000</population>
+    <area-sq-km>316</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11105</socket-port>
+    <local-input-path>source-code/countries/malta/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/malta</output-dir>
+</signal-processing-config>

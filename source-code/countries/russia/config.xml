@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Russia</country-name>
+    <iso-code>RU</iso-code>
+    <continent>Europe/Asia</continent>
+    <capital>Moscow</capital>
+    <population>144000000</population>
+    <area-sq-km>17098242</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11142</socket-port>
+    <local-input-path>source-code/countries/russia/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/russia</output-dir>
+</signal-processing-config>

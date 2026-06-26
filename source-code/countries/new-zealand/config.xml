@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>New Zealand</country-name>
+    <iso-code>NZ</iso-code>
+    <continent>Oceania</continent>
+    <capital>Wellington</capital>
+    <population>5300000</population>
+    <area-sq-km>268021</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11122</socket-port>
+    <local-input-path>source-code/countries/new-zealand/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/new-zealand</output-dir>
+</signal-processing-config>

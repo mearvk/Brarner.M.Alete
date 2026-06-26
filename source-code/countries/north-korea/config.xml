@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>North Korea</country-name>
+    <iso-code>KP</iso-code>
+    <continent>Asia</continent>
+    <capital>Pyongyang</capital>
+    <population>26200000</population>
+    <area-sq-km>120538</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11126</socket-port>
+    <local-input-path>source-code/countries/north-korea/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/north-korea</output-dir>
+</signal-processing-config>

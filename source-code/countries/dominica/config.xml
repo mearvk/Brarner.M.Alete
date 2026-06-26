@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Dominica</country-name>
+    <iso-code>DM</iso-code>
+    <continent>North America</continent>
+    <capital>Roseau</capital>
+    <population>73000</population>
+    <area-sq-km>751</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11047</socket-port>
+    <local-input-path>source-code/countries/dominica/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/dominica</output-dir>
+</signal-processing-config>

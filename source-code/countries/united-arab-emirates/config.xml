@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>United Arab Emirates</country-name>
+    <iso-code>AE</iso-code>
+    <continent>Asia</continent>
+    <capital>Abu Dhabi</capital>
+    <population>9500000</population>
+    <area-sq-km>83600</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11183</socket-port>
+    <local-input-path>source-code/countries/united-arab-emirates/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/united-arab-emirates</output-dir>
+</signal-processing-config>

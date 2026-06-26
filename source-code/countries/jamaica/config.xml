@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Jamaica</country-name>
+    <iso-code>JM</iso-code>
+    <continent>North America</continent>
+    <capital>Kingston</capital>
+    <population>2800000</population>
+    <area-sq-km>10991</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11083</socket-port>
+    <local-input-path>source-code/countries/jamaica/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/jamaica</output-dir>
+</signal-processing-config>

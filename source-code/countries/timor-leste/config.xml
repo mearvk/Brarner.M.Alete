@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Timor-Leste</country-name>
+    <iso-code>TL</iso-code>
+    <continent>Asia</continent>
+    <capital>Dili</capital>
+    <population>1370000</population>
+    <area-sq-km>14874</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11173</socket-port>
+    <local-input-path>source-code/countries/timor-leste/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/timor-leste</output-dir>
+</signal-processing-config>

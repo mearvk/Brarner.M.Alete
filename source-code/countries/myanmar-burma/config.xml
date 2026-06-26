@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Myanmar (Burma)</country-name>
+    <iso-code>MM</iso-code>
+    <continent>Asia</continent>
+    <capital>Naypyidaw</capital>
+    <population>54500000</population>
+    <area-sq-km>676578</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11117</socket-port>
+    <local-input-path>source-code/countries/myanmar-burma/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/myanmar-burma</output-dir>
+</signal-processing-config>

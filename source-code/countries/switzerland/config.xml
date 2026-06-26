@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Switzerland</country-name>
+    <iso-code>CH</iso-code>
+    <continent>Europe</continent>
+    <capital>Bern</capital>
+    <population>8900000</population>
+    <area-sq-km>41284</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11168</socket-port>
+    <local-input-path>source-code/countries/switzerland/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/switzerland</output-dir>
+</signal-processing-config>

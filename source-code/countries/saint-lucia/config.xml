@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Saint Lucia</country-name>
+    <iso-code>LC</iso-code>
+    <continent>North America</continent>
+    <capital>Castries</capital>
+    <population>180000</population>
+    <area-sq-km>616</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11145</socket-port>
+    <local-input-path>source-code/countries/saint-lucia/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/saint-lucia</output-dir>
+</signal-processing-config>

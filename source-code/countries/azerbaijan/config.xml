@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Azerbaijan</country-name>
+    <iso-code>AZ</iso-code>
+    <continent>Asia</continent>
+    <capital>Baku</capital>
+    <population>10200000</population>
+    <area-sq-km>86600</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11010</socket-port>
+    <local-input-path>source-code/countries/azerbaijan/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/azerbaijan</output-dir>
+</signal-processing-config>

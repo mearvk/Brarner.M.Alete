@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Jordan</country-name>
+    <iso-code>JO</iso-code>
+    <continent>Asia</continent>
+    <capital>Amman</capital>
+    <population>11300000</population>
+    <area-sq-km>89342</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11085</socket-port>
+    <local-input-path>source-code/countries/jordan/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/jordan</output-dir>
+</signal-processing-config>

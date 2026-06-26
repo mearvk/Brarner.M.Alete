@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Iraq</country-name>
+    <iso-code>IQ</iso-code>
+    <continent>Asia</continent>
+    <capital>Baghdad</capital>
+    <population>46000000</population>
+    <area-sq-km>438317</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11078</socket-port>
+    <local-input-path>source-code/countries/iraq/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/iraq</output-dir>
+</signal-processing-config>

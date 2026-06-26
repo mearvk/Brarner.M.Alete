@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Sri Lanka</country-name>
+    <iso-code>LK</iso-code>
+    <continent>Asia</continent>
+    <capital>Sri Jayawardenepura Kotte</capital>
+    <population>22000000</population>
+    <area-sq-km>65610</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11164</socket-port>
+    <local-input-path>source-code/countries/sri-lanka/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/sri-lanka</output-dir>
+</signal-processing-config>

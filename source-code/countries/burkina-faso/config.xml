@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Burkina Faso</country-name>
+    <iso-code>BF</iso-code>
+    <continent>Africa</continent>
+    <capital>Ouagadougou</capital>
+    <population>23800000</population>
+    <area-sq-km>274200</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11026</socket-port>
+    <local-input-path>source-code/countries/burkina-faso/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/burkina-faso</output-dir>
+</signal-processing-config>

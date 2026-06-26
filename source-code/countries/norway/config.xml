@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Norway</country-name>
+    <iso-code>NO</iso-code>
+    <continent>Europe</continent>
+    <capital>Oslo</capital>
+    <population>5500000</population>
+    <area-sq-km>323802</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11128</socket-port>
+    <local-input-path>source-code/countries/norway/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/norway</output-dir>
+</signal-processing-config>

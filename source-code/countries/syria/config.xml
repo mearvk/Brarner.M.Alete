@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<signal-processing-config>
+    <country-name>Syria</country-name>
+    <iso-code>SY</iso-code>
+    <continent>Asia</continent>
+    <capital>Damascus</capital>
+    <population>24000000</population>
+    <area-sq-km>185180</area-sq-km>
+
+    <data-source>local</data-source>
+    <data-output>both</data-output>
+    <socket-host>localhost</socket-host>
+    <socket-port>11169</socket-port>
+    <local-input-path>source-code/countries/syria/input.dat</local-input-path>
+    <db-url>jdbc:mysql://localhost:3306/Science</db-url>
+    <db-user>root</db-user>
+    <db-pass></db-pass>
+    <output-dir>output/countries/syria</output-dir>
+</signal-processing-config>
