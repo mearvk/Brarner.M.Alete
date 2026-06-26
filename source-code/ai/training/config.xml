@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<training-config module="ai" version="1.0">
+    <class name="us-democrat" label="US Democrat" active="true">
+        <description>Training class for US Democrat political signal classification</description>
+        <data-source>source-code/ai/training/data/us-democrat.csv</data-source>
+        <model-output>output/ai/models/us-democrat.pt</model-output>
+        <epochs>100</epochs>
+        <batch-size>32</batch-size>
+        <learning-rate>0.001</learning-rate>
+    </class>
+    <class name="us-president" label="US President" active="true">
+        <description>Training class for US President political signal classification</description>
+        <data-source>source-code/ai/training/data/us-president.csv</data-source>
+        <model-output>output/ai/models/us-president.pt</model-output>
+        <epochs>100</epochs>
+        <batch-size>32</batch-size>
+        <learning-rate>0.001</learning-rate>
+    </class>
+</training-config>
