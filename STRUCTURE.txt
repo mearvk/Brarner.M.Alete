@@ -5,7 +5,7 @@ source-code/
 ├── BaseServer.java              — Master server; reads config.xml, starts all active module instances
 ├── Main.java                    — Application entry point
 ├── config.xml                   — Master config: enables/disables modules, references module configs
-├── server-config.xml            — Port assignments for all instances (universities, postal, counties, SSA)
+├── server-config.xml            — Port assignments for all instances (universities, postal, counties, countries, SSA)
 ├── universities.config          — University listing CSV (name, type, city)
 ├── postal.offices.config        — Postal office listing (name, type, city/county/ZIP)
 ├── counties.nc.config           — County listing CSV (name, seat, year established, population)
@@ -36,6 +36,15 @@ source-code/
 │       │   └── config.xml          — Instance config (county name, seat, year, population + socket/DB/output)
 │       └── ... (100 NC county instances)
 │
+├── countries/
+│   ├── config.xml               — Module config: port range 11000–11194, active/standby instances
+│   ├── data/
+│   │   └── countries.csv        — Country listing (name, ISO code, continent, capital, population, area)
+│   ├── <country>/
+│   │   ├── SignalProcessing.java    — Audio FFT, data stats, graphics spectrum
+│   │   └── config.xml              — Instance config (country name, ISO, continent, capital, population, area + socket/DB/output)
+│   └── ... (195 country instances)
+│
 ├── chemistry/
 │   ├── config.xml               — Module config: port range 20001–20005, active/standby instances
 │   ├── <division>/
@@ -61,12 +70,13 @@ Configuration Hierarchy
 Port Ranges
 -----------
 Chemistry:     20001–20005 (5 ports)
+Countries:     11000–11194 (195 ports)
 Counties NC:   9100–9199  (100 ports)
 Postal:        9000–9054   (55 ports)
 SSA Offices:   9200–10381 (1182 ports)
 Universities:  8000–8052   (53 ports)
 
-Total instances: 1395
+Total instances: 1590
 
 Build Scripts
 -------------
