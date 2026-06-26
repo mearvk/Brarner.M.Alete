@@ -151,6 +151,21 @@ build.bat
 
 Both scripts compile all Java sources under `source-code/` and package them into `Brarner.M.Alete.jar`. Place jDSP and other dependency JARs in `lib/` before building.
 
+## NIO Masquerade Layer
+
+Integrates with [Java.Web.Server.Telnet.Front.Java.21](https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21) NIO Masquerade Engine. The masquerade layer binds local IPs and bridges non-blocking NIO connections to BMA's blocking signal processing architecture.
+
+**Configuration files:**
+- `configuration/nio-masquerade-config.xml` — NIO settings, port range mode, managed ports
+- `configuration/masquerade-modules.xml` — Module registry with port ranges for auto-discovery
+
+**Port range mode:** `standard` (0–65535 on 127.0.0.1)
+
+All 1590 BMA signal processing ports (8000–20005) are registered as masquerade-aware modules, enabling NIO routing via XML packets on port 2000:
+```xml
+<nwe-route><port>11000</port><payload>SIGNAL|data</payload></nwe-route>
+```
+
 ## Dependencies
 
 - Java 11+

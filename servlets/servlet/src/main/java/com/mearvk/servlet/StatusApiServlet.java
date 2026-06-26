@@ -17,7 +17,9 @@ public class StatusApiServlet extends HttpServlet
             "{\"name\":\"universities\",\"instances\":53,\"portStart\":8000,\"portEnd\":8052}," +
             "{\"name\":\"postal\",\"instances\":55,\"portStart\":9000,\"portEnd\":9054}," +
             "{\"name\":\"counties\",\"instances\":100,\"portStart\":9100,\"portEnd\":9199}," +
-            "{\"name\":\"ssa\",\"instances\":1182,\"portStart\":9200,\"portEnd\":10381}" +
+            "{\"name\":\"countries\",\"instances\":195,\"portStart\":11000,\"portEnd\":11194}," +
+            "{\"name\":\"ssa\",\"instances\":1182,\"portStart\":9200,\"portEnd\":10381}," +
+            "{\"name\":\"chemistry\",\"instances\":5,\"portStart\":20001,\"portEnd\":20005}" +
             "]}"
         );
     }

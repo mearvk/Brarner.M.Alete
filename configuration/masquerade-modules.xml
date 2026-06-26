@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Brarner.M.Alete — NIO Masquerade Module Registry
+    Used by NioModuleScanner from Java.Web.Server.Telnet.Front.Java.21
+    to auto-discover and register BMA signal processing modules in the NIO routing table.
+-->
+<masquerade-modules project="Brarner.M.Alete" version="1.0">
+
+    <module name="universities" camel-id="UniversitiesSignalProcessor"
+            port-start="8000" port-end="8052" instances="53"
+            config="source-code/universities/config.xml"
+            description="NC public and private universities signal processing" />
+
+    <module name="postal" camel-id="PostalSignalProcessor"
+            port-start="9000" port-end="9054" instances="55"
+            config="source-code/postal/config.xml"
+            description="USPS Processing &amp; Distribution Centers and Post Office Branches" />
+
+    <module name="counties" camel-id="CountiesSignalProcessor"
+            port-start="9100" port-end="9199" instances="100"
+            config="source-code/counties/config.xml"
+            description="All 100 North Carolina counties signal processing" />
+
+    <module name="countries" camel-id="CountriesSignalProcessor"
+            port-start="11000" port-end="11194" instances="195"
+            config="source-code/countries/config.xml"
+            description="All 195 countries worldwide signal processing" />
+
+    <module name="ssa" camel-id="SsaSignalProcessor"
+            port-start="9200" port-end="10381" instances="1182"
+            config="source-code/ssa/config.xml"
+            description="Social Security Administration field offices nationwide" />
+
+    <module name="chemistry" camel-id="ChemistrySignalProcessor"
+            port-start="20001" port-end="20005" instances="5"
+            config="source-code/chemistry/config.xml"
+            description="5 fundamental divisions of chemistry" />
+
+</masquerade-modules>

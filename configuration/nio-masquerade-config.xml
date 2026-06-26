@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Brarner.M.Alete — NIO Masquerade Configuration
+    Integrates with Java.Web.Server.Telnet.Front.Java.21 NIO Masquerade Layer.
+    See: https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21
+-->
+<nio-masquerade-config project="Brarner.M.Alete">
+
+    <!-- Port range mode: standard (0-65535 on 127.0.0.1) or extended (0-1048576 across 127.0.0.1-17) -->
+    <port-range-mode>standard</port-range-mode>
+
+    <!-- Bind address for NIO selector -->
+    <bind-address>127.0.0.1</bind-address>
+
+    <!-- Module registry file -->
+    <module-registry>configuration/masquerade-modules.xml</module-registry>
+
+    <!-- Managed port ranges for BMA signal processing -->
+    <managed-ports>
+        <range name="universities" start="8000" end="8052" />
+        <range name="postal" start="9000" end="9054" />
+        <range name="counties" start="9100" end="9199" />
+        <range name="ssa" start="9200" end="10381" />
+        <range name="countries" start="11000" end="11194" />
+        <range name="chemistry" start="20001" end="20005" />
+    </managed-ports>
+
+    <!-- NWE route forwarding (port 2000 XML packets) -->
+    <xml-forwarding enabled="true" />
+
+    <!-- Authorization -->
+    <authorization>
+        <public-key-url>https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/raw/main/psychiatry/secrets/public.key</public-key-url>
+    </authorization>
+
+</nio-masquerade-config>

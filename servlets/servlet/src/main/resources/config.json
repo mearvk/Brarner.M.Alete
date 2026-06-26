@@ -13,6 +13,8 @@
     "universities": { "portStart": 8000, "portEnd": 8052 },
     "postal": { "portStart": 9000, "portEnd": 9054 },
     "counties": { "portStart": 9100, "portEnd": 9199 },
-    "ssa": { "portStart": 9200, "portEnd": 10381 }
+    "countries": { "portStart": 11000, "portEnd": 11194 },
+    "ssa": { "portStart": 9200, "portEnd": 10381 },
+    "chemistry": { "portStart": 20001, "portEnd": 20005 }
   }
 }
