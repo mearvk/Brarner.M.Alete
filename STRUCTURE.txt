@@ -5,83 +5,141 @@ source-code/
 ├── BaseServer.java              — Master server; reads config.xml, starts all active module instances
 ├── Main.java                    — Application entry point
 ├── config.xml                   — Master config: enables/disables modules, references module configs
-├── server-config.xml            — Port assignments for all instances (universities, postal, counties, countries, SSA)
-├── universities.config          — University listing CSV (name, type, city)
-├── postal.offices.config        — Postal office listing (name, type, city/county/ZIP)
-├── counties.nc.config           — County listing CSV (name, seat, year established, population)
-├── ssa.administrations.csv      — SSA office listing (code, name, address, city, state, ZIP, phone, fax, hours)
+│
+├── config-files/
+│   ├── animalia.coercus.config      — Animalia phylum listing
+│   ├── art.museums.csv              — Art museum listing
+│   ├── chemistry.adednotes.csv      — Chemistry supplemental notes
+│   ├── chemistry.divisions.txt      — 5 fundamental chemistry divisions
+│   ├── counties.nc.config           — NC county listing (name, seat, year, population)
+│   ├── postal.offices.config        — Postal office listing (name, type, city/county/ZIP)
+│   ├── science.chemistry.regulatory.terms.txt
+│   ├── ssa.administrations.config.csv — SSA office listing (code, name, address, phone, fax)
+│   └── universities.config          — University listing (name, type, city)
 │
 ├── universities/
-│   ├── BaseServer.java          — Universities module server
-│   ├── config.xml               — Module config: port range 8000–8052, active/standby instances
-│   ├── <name>/
-│   │   ├── SignalProcessing.java    — Audio FFT, data stats, graphics spectrum
-│   │   └── config.xml              — Instance config (university metadata + socket/DB/output)
-│   └── ... (53 university instances)
+│   ├── BaseServer.java          — Universities module server (standalone)
+│   ├── config.xml               — Port range 8000–8052; 14 active, 39 standby
+│   └── <name>/                  — 53 university instances
+│       ├── SignalProcessing.java
+│       └── config.xml
 │
 ├── postal/
-│   ├── BaseServer.java          — Postal module server
-│   ├── config.xml               — Module config: port range 9000–9054, active/standby instances
-│   ├── <city>/
-│   │   ├── SignalProcessing.java
-│   │   └── config.xml              — Instance config (office name, type, county, ZIP + socket/DB/output)
-│   └── ... (55 postal instances: 3 P&DCs + 52 branches)
+│   ├── BaseServer.java          — Postal module server (standalone)
+│   ├── config.xml               — Port range 9000–9054; 11 active, 44 standby
+│   └── <city>/                  — 55 instances (3 P&DCs + 52 branches)
+│       ├── SignalProcessing.java
+│       └── config.xml
 │
 ├── counties/
-│   ├── BaseServer.java          — Counties module server
-│   ├── config.xml               — Module config: port range 9100–9199, active/standby instances
+│   ├── BaseServer.java          — Counties module server (standalone)
+│   ├── config.xml               — Port range 9100–9199; 16 active, 84 standby
 │   └── nc/
-│       ├── <county>/
-│       │   ├── SignalProcessing.java
-│       │   └── config.xml          — Instance config (county name, seat, year, population + socket/DB/output)
-│       └── ... (100 NC county instances)
+│       └── <county>/            — 100 NC county instances
+│           ├── SignalProcessing.java
+│           └── config.xml
+│
+├── ssa/
+│   ├── BaseServer.java          — SSA module server (standalone)
+│   ├── config.xml               — Port range 9200–10381; ~36 active (NC/VA/PA/CA)
+│   └── <state>/
+│       └── <city>/              — 1182 SSA office instances across all US states/territories
+│           ├── SignalProcessing.java    — Javadoc: office code, address, phone, fax
+│           └── config.xml
+│
+├── species/
+│   ├── BaseServer.java          — Species module server (standalone)
+│   ├── config.xml               — Port range 10400–10434; 15 active, 20 standby
+│   ├── species.list.xml         — Full animalia phylum registry
+│   └── <phylum>/                — 35 animalia phylum instances
+│       ├── SignalProcessing.java
+│       └── config.xml
 │
 ├── countries/
-│   ├── config.xml               — Module config: port range 11000–11194, active/standby instances
+│   ├── BaseServer.java          — Countries module server (standalone)  [NEW]
+│   ├── config.xml               — Port range 11000–11194; all 195 standby (module disabled by default)
 │   ├── data/
-│   │   └── countries.csv        — Country listing (name, ISO code, continent, capital, population, area)
-│   ├── <country>/
-│   │   ├── SignalProcessing.java    — Audio FFT, data stats, graphics spectrum
-│   │   └── config.xml              — Instance config (country name, ISO, continent, capital, population, area + socket/DB/output)
-│   └── ... (195 country instances)
+│   │   └── countries.csv        — Country listing (name, ISO, continent, capital, population, area)
+│   └── <country>/               — 195 country instances
+│       ├── SignalProcessing.java
+│       └── config.xml
+│
+├── art/
+│   ├── BaseServer.java          — Art module server (standalone)
+│   ├── config.xml               — Port range 18400–18419; all 20 active
+│   └── <museum>/                — 20 NC art museum instances
+│       ├── SignalProcessing.java
+│       └── config.xml
 │
 ├── chemistry/
-│   ├── config.xml               — Module config: port range 20001–20005, active/standby instances
-│   ├── <division>/
-│   │   ├── SignalProcessing.java    — Audio FFT, data stats, graphics spectrum
-│   │   └── config.xml              — Instance config (division metadata + socket/DB/output)
-│   └── ... (5 chemistry division instances: analytical, biochemistry, inorganic, organic, physical)
+│   ├── BaseServer.java          — Chemistry module server (standalone)  [NEW]
+│   ├── config.xml               — Ports 20001–20005; 5 instances (chemistry-config schema)
+│   └── <division>/              — 5 chemistry division instances
+│       ├── SignalProcessing.java
+│       └── config.xml
 │
-└── ssa/
-    ├── BaseServer.java          — SSA module server
-    ├── config.xml               — Module config: port range 9200–10381, active/standby instances
-    └── <state>/
-        ├── <city>/
-        │   ├── SignalProcessing.java    — Javadoc includes office code, address, phone, fax
-        │   └── config.xml              — Instance config (office code, name, full address, phone, fax + socket/DB/output)
-        └── ... (1182 SSA office instances across all US states/territories)
+└── data/
+    ├── rec00020.2026-06-22.data
+    └── rec00047.2026-06-22.data
 
 Configuration Hierarchy
 -----------------------
-1. source-code/config.xml          — Enables/disables modules
-2. <module>/config.xml             — Port range + which instances are active
-3. <module>/<instance>/config.xml  — Instance-specific data source, socket, DB, output paths
+1. source-code/config.xml          — Enables/disables modules (master registry)
+2. <module>/config.xml             — Port range + which instances are active/standby
+3. <module>/<instance>/config.xml  — Instance data source, socket, DB, output paths
+
+To activate a standby instance:
+  1. Open the module's config.xml
+  2. Set active="false" → active="true" on the target instance
+  3. For countries module: also set enabled="false" → enabled="true" in source-code/config.xml
 
 Port Ranges
 -----------
-Chemistry:     20001–20005 (5 ports)
-Countries:     11000–11194 (195 ports)
-Counties NC:   9100–9199  (100 ports)
-Postal:        9000–9054   (55 ports)
-SSA Offices:   9200–10381 (1182 ports)
-Universities:  8000–8052   (53 ports)
+Universities:  8000–8052   (53 ports  | 14 active,  39 standby)
+Postal:        9000–9054   (55 ports  | 11 active,  44 standby)
+Counties NC:   9100–9199   (100 ports | 16 active,  84 standby)
+SSA Offices:   9200–10381  (1182 ports| ~36 active, rest standby)
+Species:       10400–10434 (35 ports  | 15 active,  20 standby)
+Countries:     11000–11194 (195 ports | 0 active,  195 standby — module disabled)
+Art Museums:   18400–18419 (20 ports  | 20 active,   0 standby)
+Chemistry:     20001–20005 (5 ports   |  5 active,   0 standby)
 
-Total instances: 1590
+Total instances: 1645
+
+Known Port Conflicts Fixed
+--------------------------
+- SSA nc/raleigh was duplicate of nc/charlotte on port 9771 → reassigned to 9797
 
 Build Scripts
 -------------
-build.sh   — Linux: compiles source-code/**/*.java, packages into Brarner.M.Alete.jar
-build.bat  — Windows: same as above for Windows environments
+build.sh   — Linux:   compiles source-code/**/*.java against jars/**/*.jar, packages Brarner.M.Alete.jar
+build.bat  — Windows: same for Windows environments
 
 Output: Brarner.M.Alete.jar (root directory)
-Dependencies: place jDSP and other JARs in lib/ before building
+Dependencies: jars/ (subdirs: ai/, chemistry/, java-fx/, json/, logging/, signal-processing/)
+
+Maven (pom.xml)
+---------------
+Root pom.xml manages: projects, primary-source, servlets, ejbs, ear
+Compiler target: Java 9
+Dependencies: jdsp 3.1.1, fastjson 2.0.60 (both declared inside <dependencies>)
+
+NIO Masquerade Layer
+--------------------
+configuration/nio-masquerade-config.xml  — NIO settings, port range mode, managed ports
+configuration/masquerade-modules.xml     — Module registry for auto-discovery
+Bridges NIO connections (port 2000) to BMA blocking socket architecture.
+
+Project Root Files
+------------------
+README.md      — Project overview, quick start, architecture, configuration reference
+STRUCTURE.txt  — This file
+ETHICS.txt     — Usage ethics and principles
+LEGAL.md       — Civic license and legal framework
+LICENSE.md     — Software license
+SECURITY.md    — Security policy and vulnerability reporting
+MEARVK.md      — Author narrative
+MORDALS.md     — Moral framework document
+pom.xml        — Maven multi-module build descriptor
+build.sh       — Linux build script
+build.bat      — Windows build script

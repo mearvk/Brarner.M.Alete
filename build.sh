@@ -7,7 +7,7 @@ set -e
 JAR_NAME="Brarner.M.Alete.jar"
 SRC_DIR="source-code"
 OUT_DIR="build/classes"
-LIB_DIR="lib"
+LIB_DIR="jars"
 
 mkdir -p "$OUT_DIR"
 
@@ -15,7 +15,8 @@ mkdir -p "$OUT_DIR"
 find "$SRC_DIR" -name "*.java" > build/sources.txt
 
 # Compile
-javac -d "$OUT_DIR" -cp "$LIB_DIR/*" @build/sources.txt
+CLASSPATH=$(find "$LIB_DIR" -name "*.jar" | tr '\n' ':')
+javac -d "$OUT_DIR" -cp "$CLASSPATH" @build/sources.txt
 
 # Package
 jar cf "$JAR_NAME" -C "$OUT_DIR" .

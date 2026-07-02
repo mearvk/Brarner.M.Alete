@@ -34,11 +34,13 @@ Signal processing platform serving North Carolina institutions, USPS postal faci
 BaseServer.java (master)
   ├── reads source-code/config.xml (module registry)
   ├── universities/config.xml → starts active university instances
-  ├── postal/config.xml      → starts active postal instances
-  ├── counties/config.xml    → starts active county instances
-  ├── countries/config.xml   → starts active country instances
-  ├── ssa/config.xml         → starts active SSA instances
-  └── chemistry/config.xml   → starts active chemistry instances
+  ├── postal/config.xml       → starts active postal instances
+  ├── counties/config.xml     → starts active county instances
+  ├── countries/config.xml    → starts active country instances  [disabled by default]
+  ├── ssa/config.xml          → starts active SSA instances
+  ├── art/config.xml          → starts active art museum instances
+  ├── species/config.xml      → starts active species/phylum instances
+  └── chemistry/config.xml    → starts active chemistry instances
 ```
 
 Each module also has its own `BaseServer.java` for standalone operation.
@@ -73,7 +75,22 @@ All 100 North Carolina counties — `source-code/counties/nc/<county>/`
 ### Countries (195 instances)
 All 195 countries worldwide — `source-code/countries/<country>/`
 
-Organized by country name (e.g., `countries/united-states/`, `countries/japan/`). Each config.xml includes country name, ISO code, continent, capital, population, and area.
+Organized by country name (e.g., `countries/united-states/`, `countries/japan/`). Each config.xml includes country name, ISO code, continent, capital, population, and area. Disabled by default in `source-code/config.xml` — set `enabled="true"` then flip individual instances to `active="true"` to bring up.
+
+### Art Museums (20 instances — all active)
+NC art museums and cultural centers — `source-code/art/`
+- North Carolina Museum of Art, Ackland Art Museum, AD Gallery
+- African American Atelier, Harvey B. Gantt Center, Delta Arts Center
+- Diggs Gallery (WSSU), NCCU Art Museum, NC A&T State University Galleries
+- Cameron Art Museum, Mai Myette Black Fine Arts Museum, CS Brown Cultural Arts Center
+- Tryon Palace Collections, NC Museum of History, Maritime Museum Beaufort
+- Roanoke Island Festival Park, 82nd Airborne Division War Memorial Museum
+- African American Cultural Complex, American Classic Motorcycle Museum, Andy Griffith Museum
+
+### Species / Animalia (35 phyla, 11 active)
+Animal kingdom phyla — `source-code/species/`
+
+Active: cnidaria, ctenophora, myxozoa, placozoa, porifera, annelida, arthropoda, brachiopoda, bryozoa, chaetognatha, chordata, echinodermata, mollusca, nematoda, platyhelminthes. Remaining 20 phyla on standby.
 
 ### Chemistry Divisions (5 instances)
 The 5 fundamental divisions of chemistry — `source-code/chemistry/<division>/`
@@ -104,15 +121,16 @@ Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Ea
 ### Port Ranges
 | Module | Port Range | Instances |
 |--------|-----------|-----------|
-| Chemistry | 20001–20005 | 5 |
-| Countries | 11000–11194 | 195 |
-| Counties NC | 9100–9199 | 100 |
-| Postal (P&DCs) | 9000–9002 | 3 |
-| Postal (Branches) | 9003–9054 | 52 |
-| SSA Offices | 9200–10381 | 1182 |
 | Universities | 8000–8052 | 53 |
+| Postal | 9000–9054 | 55 |
+| Counties NC | 9100–9199 | 100 |
+| SSA Offices | 9200–10381 | 1182 |
+| Countries | 11000–11194 | 195 |
+| Art Museums | 18400–18419 | 20 |
+| Chemistry | 20001–20005 | 5 |
+| Species | 10400–10434 | 35 |
 
-**Total: 1590 instances**
+**Total: 1645 instances**
 
 ### Activating an Instance
 
@@ -149,7 +167,7 @@ Each instance supports dual output configured via `<data-output>`:
 build.bat
 ```
 
-Both scripts compile all Java sources under `source-code/` and package them into `Brarner.M.Alete.jar`. Place jDSP and other dependency JARs in `lib/` before building.
+Both scripts compile all Java sources under `source-code/` and package them into `Brarner.M.Alete.jar`. Dependency JARs live in `jars/` (subdirs: `ai/`, `chemistry/`, `java-fx/`, `json/`, `logging/`, `signal-processing/`). The build scripts recurse `jars/` automatically — no manual classpath setup needed.
 
 ## NIO Masquerade Layer
 
@@ -169,7 +187,12 @@ All 1590 BMA signal processing ports (8000–20005) are registered as masquerade
 ## Dependencies
 
 - Java 11+
-- [jDSP](https://github.com/psambit9791/jDSP) — `com.github.psambit9791.jdsp` (Fast Fourier Transform)
+- [jDSP](https://github.com/psambit9791/jDSP) — signal processing / FFT (`jars/signal-processing/`)
+- [Fastjson](https://github.com/alibaba/fastjson) — JSON serialization (`jars/json/`)
+- [CDK](https://cdk.github.io/) — Chemistry Development Kit (`jars/chemistry/`)
+- [DJL](https://djl.ai/) + ONNX Runtime — AI/ML inference (`jars/ai/`)
+- JavaFX 26 — graphics spectrum rendering (`jars/java-fx/`)
+- SLF4J — logging (`jars/logging/`)
 - MySQL/MariaDB (optional, for database output)
 
 ## Files
@@ -179,7 +202,9 @@ All 1590 BMA signal processing ports (8000–20005) are registered as masquerade
 - `ETHICS.txt` — Usage ethics and principles
 - `LEGAL.md` — Legal information
 - `LICENSE.md` — License
-- `SECURITY.md` — Security policy
+- `SECURITY.md` — Security policy and vulnerability reporting
+- `MEARVK.md` — Author narrative
+- `MORDALS.md` — Moral framework document
 
 ## Author
 

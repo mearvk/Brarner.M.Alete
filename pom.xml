@@ -70,6 +70,11 @@
          <artifactId>jdsp</artifactId>
          <version>3.1.1</version>
       </dependency>
+      <dependency>
+         <groupId>com.alibaba</groupId>
+         <artifactId>fastjson</artifactId>
+         <version>2.0.60</version>
+      </dependency>
    </dependencies>
    <distributionManagement>
       <site>
@@ -78,9 +83,4 @@
          <url>scp://local.company.com/websites/project.company.com/</url>
       </site>
    </distributionManagement>
-   <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>2.0.60</version>
-   </dependency>
 </project>
