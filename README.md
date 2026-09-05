@@ -1,6 +1,12 @@
 # Brarner.M.Alete
 
-MearvK Ltd - MEARVK LLC
+## Bitcoin Conjegeum
+
+bc1qs6v4q9zsw70t0umk3m0quhvf9dr6cdeskl28dh
+
+US Democratic and US Policy.
+
+## MearvK Ltd - MEARVK LLC
 
 Maximilian Eric Alexander Rupplin von Keffikon - MEARVK - MEARVK LLC
 
