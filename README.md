@@ -14,6 +14,8 @@ NC State University (NCSU) - Raleigh, NC
 
 We are not all in the Country as technical magicians.
 
+![](https://shields.io)
+
 ---
 
 ## II. Overview
