@@ -14,8 +14,6 @@ NC State University (NCSU) - Raleigh, NC
 
 We are not all in the Country as technical magicians.
 
-![Profile views](https://views.igorkowalczyk.dev/api/badge/@mearvk?style=flat)
-
 ---
 
 ## II. Overview
