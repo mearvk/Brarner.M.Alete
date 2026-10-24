@@ -1,6 +1,6 @@
 # Brarner.M.Alete
 
-## II. MearvK Ltd - MEARVK LLC
+## I. MearvK Ltd - MEARVK LLC
 
 Maximilian Eric Alexander Rupplin von Keffikon - MEARVK - MEARVK LLC
 
@@ -18,17 +18,17 @@ We are not all in the Country as technical magicians.
 
 ---
 
-## III. Overview
+## II. Overview
 
 Signal processing platform serving North Carolina institutions, USPS postal facilities, NC counties, countries worldwide, Social Security Administration offices nationwide, and chemistry science divisions. Each instance performs audio FFT, statistical data analysis, and graphics spectrum processing via configurable socket-based data intake and dual output (file + database).
 
-## IV. Quick Start
+## III. Quick Start
 
 1. Configure active instances in each module's `config.xml`
 2. Run `BaseServer.java` — starts all active instances on their assigned ports
 3. Send signal data to any active port; results written to `output/` and/or MySQL
 
-## V. Architecture
+## IV. Architecture
 
 ```
 BaseServer.java (master)
@@ -45,7 +45,7 @@ BaseServer.java (master)
 
 Each module also has its own `BaseServer.java` for standalone operation.
 
-## VI. Project Structure
+## V. Project Structure
 
 ### Universities (53 instances)
 NC public and private universities — `source-code/universities/<name>/`
@@ -109,7 +109,7 @@ Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Ea
 - `SignalProcessing.java` — Audio FFT, statistical data analysis, and graphics spectrum processing
 - `config.xml` — Instance-specific configuration (data source, socket, database, output paths)
 
-## VII. Configuration
+## VI. Configuration
 
 ### Hierarchy
 | Level | File | Purpose |
@@ -146,7 +146,7 @@ Each instance supports dual output configured via `<data-output>`:
 - `database` — inserts into MySQL `experiments` table
 - `both` — writes to both
 
-## VIII. Configuration Files
+## VII. Configuration Files
 - `source-code/server-config.xml` — Master server port assignments
 - `source-code/universities.config` — University listing (name, type, city)
 - `source-code/postal.offices.config` — Postal office listing (name, type, city/county/ZIP)
@@ -155,7 +155,7 @@ Each instance supports dual output configured via `<data-output>`:
 - `source-code/ssa.administrations.csv` — SSA office listing (code, name, address, city, state, ZIP, phone, fax, hours)
 - `source-code/config-files/chemistry.divisions.txt` — Chemistry division listing (5 fundamental divisions)
 
-## IX. Building
+## VIII. Building
 
 ### Linux
 ```bash
@@ -169,7 +169,7 @@ build.bat
 
 Both scripts compile all Java sources under `source-code/` and package them into `Brarner.M.Alete.jar`. Dependency JARs live in `jars/` (subdirs: `ai/`, `chemistry/`, `java-fx/`, `json/`, `logging/`, `signal-processing/`). The build scripts recurse `jars/` automatically — no manual classpath setup needed.
 
-## X. NIO Masquerade Layer
+## IX. NIO Masquerade Layer
 
 Integrates with [Java.Web.Server.Telnet.Front.Java.21](https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21) NIO Masquerade Engine. The masquerade layer binds local IPs and bridges non-blocking NIO connections to BMA's blocking signal processing architecture.
 
@@ -184,7 +184,7 @@ All 1590 BMA signal processing ports (8000–20005) are registered as masquerade
 <nwe-route><port>11000</port><payload>SIGNAL|data</payload></nwe-route>
 ```
 
-## XI. Dependencies
+## X. Dependencies
 
 - Java 11+
 - [jDSP](https://github.com/psambit9791/jDSP) — signal processing / FFT (`jars/signal-processing/`)
@@ -195,7 +195,7 @@ All 1590 BMA signal processing ports (8000–20005) are registered as masquerade
 - SLF4J — logging (`jars/logging/`)
 - MySQL/MariaDB (optional, for database output)
 
-## XII. Files
+## XI. Files
 
 - `README.md` — This file
 - `STRUCTURE.txt` — Detailed project layout
@@ -206,7 +206,7 @@ All 1590 BMA signal processing ports (8000–20005) are registered as masquerade
 - `MEARVK.md` — Author narrative
 - `MORDALS.md` — Moral framework document
 
-## XIII. Author
+## XII. Author
 
 Maximilian Eric Alexander Rupplin von Keffikon  
 MEARVK LLC
@@ -214,7 +214,7 @@ MEARVK LLC
 
 ---
 
-## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XIV. Bitcoin Conjegeum
+## <img src="https://github.com/mearvk/SLeeLa/blob/master/images/debian-logo.png" width="25" height="25" alt="Debian"> XIII. Bitcoin Conjegeum
 
 ![CremeOak](https://github.com/mearvk/Java.Web.Server.Telnet.Front.Java.21/raw/main/images/national-bitcoin-icc-logo-005.jpg)
 
