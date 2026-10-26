@@ -4,10 +4,7 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -34,6 +31,14 @@ build/
 ### VS Code ###
 .vscode/
 
+### IDE / build output ###
+out/
+build/classes/
+
+### JVM crash logs ###
+hs_err_pid*.log
+replay_pid*.log
+
 ### Mac OS ###
 .DS_Store
 
@@ -41,6 +46,15 @@ build/
 configuration/.my.cnf
 libjfxwebkit.so
 
-### Large files (>50MB) ###
+### Large / duplicate binaries (removed from tracking — do not re-add) ###
+# JavaFX webkit native lib (92MB) and the bundled SDK zip (51MB)
 jars/java-fx/javafx-sdk-26.0.1/bin/jfxwebkit.dll
 jars/java-fx/javafx-jdk.zip
+# Nested duplicate of the standalone javafx-sdk-26.0.1 (identical lib/)
+jars/java-fx/openjfx-26.0.1_linux-x64_bin-sdk/
+# Vendored HTML API docs — available online at https://openjfx.io
+jars/java-fx/openjfx-26.0.1-javadoc/
+# Stale jDSP 3.1.0 (pom.xml and the build use 3.1.1)
+jars/signal-processing/jdsp-3.1.0.jar
+source-code/universities/main/resources/jdsp-3.1.0.zip
+source-code/universities/main/resources/jdsp-3.1.0 (1).zip
