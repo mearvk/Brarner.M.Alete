@@ -47,9 +47,14 @@ BaseServer.java (master)
 
 Each module also has its own `BaseServer.java` for standalone operation.
 
+Beyond the socket-based instance modules above, `source-code/` also contains the `video/`
+(YouTube analysis + JavaFX viewer) and `science/` (scoring artifacts) components — see
+Project Structure below. These are not socket-server instances and are not part of the
+instance totals.
+
 ## V. Project Structure
 
-### Universities (53 instances)
+### Universities (54 instances)
 NC public and private universities — `source-code/universities/<name>/`
 
 ### Postal Offices (55 instances)
@@ -114,6 +119,23 @@ The 5 fundamental divisions of chemistry — `source-code/chemistry/<division>/`
 Social Security Administration field offices nationwide — `source-code/ssa/<state>/<city>/`
 
 Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Each config.xml includes office code, name, full address, city, state, ZIP, phone, and fax.
+
+### Video (YouTube analysis + viewer)
+`source-code/video/` — video content pipeline, separate from the socket-based signal-processing instances:
+- `video/analysis/YouTubeFilter.java` — downloads YouTube video content and writes it to `source-code/data/<name>.<date>.data`, producing raw byte + metadata files suitable for analysis by the platform's `SignalProcessing` instances.
+- `video/viewer/` — a JavaFX desktop player (`VideoViewer.java`, launched via `Launcher.java`) with a WebView front end and real-time FFT audio visualization (`AudioVisualizer.java`, `AudioAnalysisFilter.java`). Behaviour is driven by `video/viewer/config/config.xml` (window size, memory, default URL, visualizer colors) and `video/viewer/config/audio-analysis-filter.config.xml` (FFT module via jDSP).
+
+### Video Viewer launcher scripts
+`source-code/video.viewer/` — cross-platform install/build/run scripts for the viewer app (`.sh`, `.bat`, `.zsh` variants plus `database.sql`):
+- `install.*` — checks Java 11+ and the JavaFX SDK, then runs the database setup
+- `compile.*` — builds the viewer classes
+- `start.*` — launches `video.viewer.Launcher` with the JavaFX module path
+- `database.*` / `database.sql` — provisions the viewer's database
+
+### Science (fines)
+`source-code/science/fines/` — non-executable scoring/ethics artifacts (`.fines` text files), not runtime instances:
+- `frontermus/fronterminusetic.fines`
+- `protethic/protethic.fines`
 
 ### Signal-processing engine
 
