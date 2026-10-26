@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/brarner.m.alete.logo-001.jpg" alt="Brarner M. Alele" width="100%" />
+  <img src="images/brarner.m.alete-logo-001.jpg" alt="Brarner M. Alele" width="100%" />
 </p>
 
 # Brarner.M.Alete
