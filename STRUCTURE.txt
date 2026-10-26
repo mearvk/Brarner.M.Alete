@@ -120,17 +120,21 @@ instance's config path from its module config and drives the shared engine.
 
 Build Scripts
 -------------
-build.sh   — Linux:   compiles source-code/**/*.java against jars/**/*.jar, packages Brarner.M.Alete.jar
-build.bat  — Windows: same for Windows environments
+build.sh   — Linux/macOS: compiles the engine (source-code minus ai/ and video/)
+             against jars/signal-processing/*, packages a runnable Brarner.M.Alete.jar
+build.bat  — Windows: same scope; uses jars\signal-processing with a recursive classpath
 
-Output: Brarner.M.Alete.jar (root directory)
+Output: Brarner.M.Alete.jar (Main-Class: Main; delegates to BaseServer)
 Dependencies: jars/ (subdirs: ai/, chemistry/, java-fx/, json/, logging/, signal-processing/)
+  The engine itself needs only jars/signal-processing/ (jDSP 3.1.1 + commons-math3).
 
 Maven (pom.xml)
 ---------------
-Root pom.xml manages: projects, primary-source, servlets, ejbs, ear
-Compiler target: Java 9
-Dependencies: jdsp 3.1.1, fastjson 2.0.60 (both declared inside <dependencies>)
+Root pom.xml aggregates: projects, primary-source, servlets, ejbs, ear, source-code
+Compiler target: Java 17 (maven.compiler.release)
+The source-code/ module builds the engine (same scope as build.sh) and depends on
+the bundled jDSP 3.1.1 / commons-math3 jars via system scope (no network needed):
+    mvn -pl source-code -am package   ->  source-code/target/Brarner.M.Alete.jar
 
 NIO Masquerade Layer
 --------------------

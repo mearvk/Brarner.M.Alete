@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>root</groupId>
+      <artifactId>project</artifactId>
+      <version>1.0</version>
+      <relativePath>../pom.xml</relativePath>
+   </parent>
+
+   <artifactId>engine</artifactId>
+   <packaging>jar</packaging>
+   <name>Brarner.M.Alete signal-processing engine</name>
+   <description>
+      The core platform: the shared bma.SignalProcessing engine, Main, the master
+      BaseServer and the per-module BaseServers. This is the Maven counterpart to
+      build.sh / build.bat and builds the same scope (the optional ai/ and video/
+      trees are excluded).
+   </description>
+
+   <properties>
+      <maven.compiler.release>17</maven.compiler.release>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <!-- Absolute path to the bundled signal-processing jars. -->
+      <bma.libdir>${project.basedir}/../jars/signal-processing</bma.libdir>
+   </properties>
+
+   <dependencies>
+      <!--
+         The signal-processing dependencies are vendored under jars/ rather than
+         pulled from a remote repository, so they are declared with system scope
+         against the bundled jars. This keeps the Maven build self-contained and
+         consistent with build.sh (which globs jars/signal-processing onto the
+         classpath).
+      -->
+      <dependency>
+         <groupId>com.github.psambit9791</groupId>
+         <artifactId>jdsp</artifactId>
+         <version>3.1.1</version>
+         <scope>system</scope>
+         <systemPath>${bma.libdir}/jdsp-3.1.1.jar</systemPath>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.commons</groupId>
+         <artifactId>commons-math3</artifactId>
+         <version>3.6.1</version>
+         <scope>system</scope>
+         <systemPath>${bma.libdir}/commons-math3-3.6.1.jar</systemPath>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <!-- The engine sources live directly under source-code/. -->
+      <sourceDirectory>${project.basedir}</sourceDirectory>
+      <finalName>Brarner.M.Alete</finalName>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.13.0</version>
+            <configuration>
+               <release>17</release>
+               <!-- Build the engine only; skip the optional ai/ and video/ trees. -->
+               <excludes>
+                  <exclude>ai/**</exclude>
+                  <exclude>video/**</exclude>
+               </excludes>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.4.1</version>
+            <configuration>
+               <archive>
+                  <manifest>
+                     <mainClass>Main</mainClass>
+                  </manifest>
+               </archive>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
+</project>

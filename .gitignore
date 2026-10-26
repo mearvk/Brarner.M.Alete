@@ -33,7 +33,8 @@ build/
 
 ### IDE / build output ###
 out/
-build/classes/
+build/
+/Brarner.M.Alete.jar
 
 ### JVM crash logs ###
 hs_err_pid*.log
