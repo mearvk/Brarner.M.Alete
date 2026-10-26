@@ -268,7 +268,7 @@ US Democratic and US Policy.
 
 ---
 
-## XVI. National Science Brand Imagery
+## XIV. National Science Brand Imagery
 
 <p align="center"><img src="https://raw.githubusercontent.com/mearvk/SLeeLa/master/brand/national-sleela-science-004.jpg" alt="National SLeeLa Science" width="560"></p>
 
