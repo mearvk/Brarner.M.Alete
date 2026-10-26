@@ -5,6 +5,10 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.*;
 import java.sql.*;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 
@@ -14,14 +18,35 @@ import org.w3c.dom.*;
  * <p>Historically this class was copy-pasted ~9,000 times (once per instance),
  * with each copy differing only in package name, config path, port and output
  * labels. Those differences are all data, so they now live in each instance's
- * {@code config.xml} and this single class is parameterised by an {@link Instance}
+ * {@code config.xml} and this single class is parameterised by the instance's
  * identity instead.</p>
  *
  * <p>Construct with the instance's qualified name (e.g. {@code "universities.appalachian"})
  * and the path to its {@code config.xml}, then call {@link Audio#process()},
  * {@link Data#process()} or {@link Graphics#process()}.</p>
+ *
+ * <h2>Output format</h2>
+ * <p>Every result — whether written to a file or a database row — carries a
+ * fixed, machine- and human-readable header followed by a well-formed body:</p>
+ * <ul>
+ *   <li>a commented header block ({@code # key: value}) naming the instance,
+ *       analysis kind, UTC timestamp, sample count and relevant parameters;</li>
+ *   <li>numbers rendered with a fixed precision in {@link Locale#US} (so a
+ *       decimal point is always used, never a locale comma);</li>
+ *   <li>stable column layouts: an indexed magnitude table for audio, aligned
+ *       {@code key = value} lines for statistics, and RFC-style CSV for graphics.</li>
+ * </ul>
  */
 public final class SignalProcessing {
+
+    /** Decimal places used for all floating-point output. */
+    private static final int SCALE = 6;
+
+    /** Locale-stable formatter: fixed scale, always a '.' decimal separator, no grouping. */
+    private static final String FLOAT_FMT = "%." + SCALE + "f";
+
+    private static final DateTimeFormatter TS =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZoneOffset.UTC);
 
     /** Immutable per-instance configuration loaded from a {@code config.xml}. */
     public static final class Config {
@@ -105,18 +130,51 @@ public final class SignalProcessing {
     }
 
     private double[] readData() throws IOException {
+        double[] data;
         if ("socket".equals(config.dataSource)) {
             try (Socket sock = new Socket(config.socketHost, config.socketPort);
                  DataInputStream dis = new DataInputStream(sock.getInputStream())) {
                 int len = dis.readInt();
-                double[] data = new double[len];
+                if (len < 0) throw new IOException("Negative sample count from socket: " + len);
+                data = new double[len];
                 for (int i = 0; i < len; i++) data[i] = dis.readDouble();
-                return data;
+            }
+        } else {
+            try (BufferedReader br = Files.newBufferedReader(Paths.get(config.localInputPath))) {
+                data = br.lines()
+                         .map(String::trim)
+                         .filter(s -> !s.isEmpty())
+                         .mapToDouble(Double::parseDouble)
+                         .toArray();
             }
         }
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(config.localInputPath))) {
-            return br.lines().mapToDouble(Double::parseDouble).toArray();
+        if (data.length == 0) {
+            throw new IOException("No samples read for " + qualifiedName
+                + " from " + ("socket".equals(config.dataSource) ? "socket" : config.localInputPath));
         }
+        return data;
+    }
+
+    private static String f(double v) {
+        return String.format(Locale.US, FLOAT_FMT, v);
+    }
+
+    /**
+     * Builds the standard commented header shared by every output artifact.
+     * Lines begin with {@code # } so downstream CSV/numeric parsers can skip them.
+     */
+    private String header(String kind, int sampleCount, String... extra) {
+        StringBuilder h = new StringBuilder();
+        h.append("# Brarner.M.Alete signal-processing result\n");
+        h.append("# instance : ").append(qualifiedName).append('\n');
+        h.append("# analysis : ").append(kind).append('\n');
+        h.append("# generated: ").append(TS.format(Instant.now())).append('\n');
+        h.append("# samples  : ").append(sampleCount).append('\n');
+        for (int i = 0; i + 1 < extra.length; i += 2) {
+            h.append("# ").append(String.format("%-9s", extra[i])).append(": ").append(extra[i + 1]).append('\n');
+        }
+        h.append("#\n");
+        return h.toString();
     }
 
     private void writeToFile(String filename, String content) throws IOException {
@@ -147,43 +205,69 @@ public final class SignalProcessing {
         }
     }
 
-    /** Audio FFT: magnitude spectrum of the input signal. */
+    /** Audio FFT: magnitude spectrum of the input signal, as an indexed table. */
     public final class Audio {
         public void process() throws IOException, SQLException {
             double[] raw = readData();
             FastFourier fft = new FastFourier(raw);
             fft.transform();
             double[] mag = fft.getMagnitude(true);
+
             StringBuilder sb = new StringBuilder();
-            for (double v : mag) sb.append(v).append("\n");
+            sb.append(header("audio.fft", raw.length, "bins", String.valueOf(mag.length)));
+            sb.append("bin,magnitude\n");
+            for (int i = 0; i < mag.length; i++) {
+                sb.append(i).append(',').append(f(mag[i])).append('\n');
+            }
             output(shortName + "_audio", qualifiedName + ".audio.fft", sb.toString());
         }
     }
 
-    /** Statistical analysis: mean and variance of the input signal. */
+    /** Statistical analysis: descriptive statistics of the input signal. */
     public final class Data {
         public void process() throws IOException, SQLException {
             double[] raw = readData();
-            double sum = 0;
-            for (double v : raw) sum += v;
-            double mean = sum / raw.length;
-            double var = 0;
-            for (double v : raw) var += (v - mean) * (v - mean);
-            var /= raw.length;
-            output(shortName + "_data", qualifiedName + ".data.stats",
-                "mean=" + mean + "\nvariance=" + var + "\nn=" + raw.length + "\n");
+
+            int n = raw.length;
+            double sum = 0, min = raw[0], max = raw[0];
+            for (double v : raw) {
+                sum += v;
+                if (v < min) min = v;
+                if (v > max) max = v;
+            }
+            double mean = sum / n;
+            double sq = 0;
+            for (double v : raw) sq += (v - mean) * (v - mean);
+            double variance = sq / n;
+            double stddev = Math.sqrt(variance);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(header("data.stats", n));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "n", n));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "mean", f(mean)));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "variance", f(variance)));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "stddev", f(stddev)));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "min", f(min)));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "max", f(max)));
+            sb.append(String.format(Locale.US, "%-9s = %s%n", "sum", f(sum)));
+            output(shortName + "_data", qualifiedName + ".data.stats", sb.toString());
         }
     }
 
-    /** Graphics spectrum: FFT magnitude as a plottable x,y series. */
+    /** Graphics spectrum: FFT magnitude as a plottable CSV series. */
     public final class Graphics {
         public void process() throws IOException, SQLException {
             double[] raw = readData();
             FastFourier fft = new FastFourier(raw);
             fft.transform();
             double[] mag = fft.getMagnitude(true);
-            StringBuilder sb = new StringBuilder("x,y\n");
-            for (int i = 0; i < mag.length; i++) sb.append(i).append(",").append(mag[i]).append("\n");
+
+            StringBuilder sb = new StringBuilder();
+            sb.append(header("graphics.spectrum", raw.length, "points", String.valueOf(mag.length)));
+            sb.append("x,y\n");
+            for (int i = 0; i < mag.length; i++) {
+                sb.append(i).append(',').append(f(mag[i])).append('\n');
+            }
             output(shortName + "_graphics", qualifiedName + ".graphics.spectrum", sb.toString());
         }
     }
