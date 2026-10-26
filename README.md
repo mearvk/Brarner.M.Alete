@@ -23,7 +23,7 @@ Signal processing platform serving North Carolina institutions, USPS postal faci
 ## III. Quick Start
 
 1. Configure active instances in each module's `config.xml`
-2. Run `BaseServer.java` — starts all active instances on their assigned ports
+2. Run `Main` (or `BaseServer` directly) — starts all active instances on their assigned ports
 3. Send signal data to any active port; results written to `output/` and/or MySQL
 
 ## IV. Architecture
@@ -85,10 +85,18 @@ NC art museums and cultural centers — `source-code/art/`
 - Roanoke Island Festival Park, 82nd Airborne Division War Memorial Museum
 - African American Cultural Complex, American Classic Motorcycle Museum, Andy Griffith Museum
 
-### Species / Animalia (35 phyla, 11 active)
-Animal kingdom phyla — `source-code/species/`
+### Species / Animalia (35 phyla → 7,348 instances, 15 active)
+Animal kingdom taxonomy — `source-code/species/`
 
-Active: cnidaria, ctenophora, myxozoa, placozoa, porifera, annelida, arthropoda, brachiopoda, bryozoa, chaetognatha, chordata, echinodermata, mollusca, nematoda, platyhelminthes. Remaining 20 phyla on standby.
+Organized as a nested taxonomic tree (phylum → class → family), up to four levels
+deep under `source-code/species/`, for a total of **7,348 instances** across **35 phyla**.
+Ports are drawn from the 10400–10434 range for the active set; standby nodes are
+brought up on demand.
+
+Active phyla (15): cnidaria, ctenophora, myxozoa, placozoa, porifera, annelida,
+arthropoda, brachiopoda, bryozoa, chaetognatha, chordata, echinodermata, mollusca,
+nematoda, platyhelminthes. The remaining 20 phyla (and all their descendant
+class/family nodes) are on standby.
 
 ### Chemistry Divisions (5 instances)
 The 5 fundamental divisions of chemistry — `source-code/chemistry/<division>/`
@@ -101,10 +109,19 @@ The 5 fundamental divisions of chemistry — `source-code/chemistry/<division>/`
 ### SSA Offices (1182 instances)
 Social Security Administration field offices nationwide — `source-code/ssa/<state>/<city>/`
 
-Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Each config.xml includes office code, name, full address, city, state, ZIP, phone, and fax. Javadoc in each SignalProcessing.java documents the same.
+Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Each config.xml includes office code, name, full address, city, state, ZIP, phone, and fax.
+
+### Signal-processing engine
+
+All instances share a single engine, `source-code/bma/SignalProcessing.java`
+(package `bma`), which performs Audio FFT, statistical data analysis, and graphics
+spectrum processing. It is parameterised by each instance's identity and its
+`config.xml` — there is no longer a per-instance copy of the code. (Previously this
+class was copy-pasted once per instance, ~9,000 times, differing only in data such
+as the package name, config path and port; those differences now live entirely in
+each instance's `config.xml`.)
 
 ### Each instance contains:
-- `SignalProcessing.java` — Audio FFT, statistical data analysis, and graphics spectrum processing
 - `config.xml` — Instance-specific configuration (data source, socket, database, output paths)
 
 ## VI. Configuration
@@ -119,16 +136,16 @@ Organized by state then city (e.g., `ssa/nc/raleigh/`, `ssa/pa/mt-lebanon/`). Ea
 ### Port Ranges
 | Module | Port Range | Instances |
 |--------|-----------|-----------|
-| Universities | 8000–8052 | 53 |
+| Universities | 8000–8052 | 54 |
 | Postal | 9000–9054 | 55 |
 | Counties NC | 9100–9199 | 100 |
 | SSA Offices | 9200–10381 | 1182 |
 | Countries | 11000–11194 | 195 |
 | Art Museums | 18400–18419 | 20 |
 | Chemistry | 20001–20005 | 5 |
-| Species | 10400–10434 | 35 |
+| Species | 10400–10434 | 7,348 |
 
-**Total: 1645 instances**
+**Total: 8,959 instances**
 
 ### Activating an Instance
 
